@@ -1,5 +1,7 @@
+%define pkg_base psipred
+
 Summary: PSIPRED protein secondary structure prediction
-Name: psipred
+Name: psipred321
 Version: 3.21
 Release: 1%{?dist}
 License: Custom/Academic
@@ -28,7 +30,7 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{name}/%{name}-%{version}
+%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{name}-%{version}
 %define bundle_bin_dir  %{install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
@@ -46,19 +48,21 @@ cp     runpsipred         %{install_dir}
 cp     runpsipred_single  %{install_dir}
  
 
-# set up symlinks. These are broken as installed and should be copied to a bin directory a few 
-# parents up where they will be valid.
+# set up symlinks. These are broken as installed and should be copied to 
+# a bin directory a few parents up where they will then be valid.
+# This symlink copy is managed outside RPM (say, with Puppet) so
+# we have dynamic control over which version is active
 cd %{bundle_bin_dir}
-ln -s ../software/%{name}/%{name}-%{version}/runpsipred_single
-ln -s ../software/%{name}/%{name}-%{version}/runpsipred
-ln -s ../software/%{name}/%{name}-%{version}/chkparse
-ln -s ../software/%{name}/%{name}-%{version}/pfilt
-ln -s ../software/%{name}/%{name}-%{version}/psipass2
-ln -s ../software/%{name}/%{name}-%{version}/psipred
-ln -s ../software/%{name}/%{name}-%{version}/seq2mtx
+ln -s ../software/%{pkg_base}/%{name}-%{version}/runpsipred_single
+ln -s ../software/%{pkg_base}/%{name}-%{version}/runpsipred
+ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/chkparse
+ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/pfilt
+ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/psipass2
+ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/psipred
+ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/seq2mtx
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{name}/%{name}-%{version}
+%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{name}-%{version}
 %define bundle_bin_dir %{install_dir}/__bin__
 
 cd %{install_dir}
@@ -76,7 +80,7 @@ sed -i  "s|^set datadir.*|set datadir = %{install_dir}/data|" runpsipred
 %define bin_dir $RPM_INSTALL_PREFIX0/bin
 
 %postun
-%define parent $RPM_INSTALL_PREFIX0/software/%{name}
+%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
 if [ ! "$(ls -A %{parent})" ]; then
     rmdir %{parent}
 fi
@@ -87,7 +91,7 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{name}/%{name}-%{version}
+%define install_dir  %{prefix}/software/%{pkg_base}/%{name}-%{version}
 
 %dir %{install_dir}
 %dir %{install_dir}/BLAST+
