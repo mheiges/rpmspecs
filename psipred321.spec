@@ -30,7 +30,7 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{name}-%{version}
+%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{name}
 %define bundle_bin_dir  %{install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
@@ -53,20 +53,21 @@ cp     runpsipred_single  %{install_dir}
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
 cd %{bundle_bin_dir}
-ln -s ../software/%{pkg_base}/%{name}-%{version}/runpsipred_single
-ln -s ../software/%{pkg_base}/%{name}-%{version}/runpsipred
-ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/chkparse
-ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/pfilt
-ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/psipass2
-ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/psipred
-ln -s ../software/%{pkg_base}/%{name}-%{version}/bin/seq2mtx
+ln -s ../software/%{pkg_base}/%{name}/runpsipred_single
+ln -s ../software/%{pkg_base}/%{name}/runpsipred
+ln -s ../software/%{pkg_base}/%{name}/bin/chkparse
+ln -s ../software/%{pkg_base}/%{name}/bin/pfilt
+ln -s ../software/%{pkg_base}/%{name}/bin/psipass2
+ln -s ../software/%{pkg_base}/%{name}/bin/psipred
+ln -s ../software/%{pkg_base}/%{name}/bin/seq2mtx
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{name}-%{version}
+%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{name}
 %define bundle_bin_dir %{install_dir}/__bin__
 
 cd %{install_dir}
 
+# patch paths
 sed -i  "s|^set datadir.*|set datadir = %{install_dir}/data|" runpsipred_single
 sed -i  "s|^set execdir.*|set execdir = %{install_dir}/bin|" runpsipred_single
 
@@ -76,10 +77,8 @@ sed -i  "s|^set execdir.*|set execdir = %{install_dir}/bin|" runpsipred
 sed -i  "s|^set datadir.*|set datadir = %{install_dir}/data|" runpsipred
 
 
-%preun
-%define bin_dir $RPM_INSTALL_PREFIX0/bin
-
 %postun
+# remove pkg_base dir if empty
 %define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
 if [ ! "$(ls -A %{parent})" ]; then
     rmdir %{parent}
@@ -91,7 +90,7 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{name}-%{version}
+%define install_dir  %{prefix}/software/%{pkg_base}/%{name}
 
 %dir %{install_dir}
 %dir %{install_dir}/BLAST+
