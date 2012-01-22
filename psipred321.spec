@@ -30,7 +30,7 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{name}
+%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
 %define bundle_bin_dir  %{install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
@@ -52,17 +52,18 @@ cp     runpsipred_single  %{install_dir}
 # a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
+%define ln_path ../software/%{pkg_base}/%{version}
 cd %{bundle_bin_dir}
-ln -s ../software/%{pkg_base}/%{name}/runpsipred_single
-ln -s ../software/%{pkg_base}/%{name}/runpsipred
-ln -s ../software/%{pkg_base}/%{name}/bin/chkparse
-ln -s ../software/%{pkg_base}/%{name}/bin/pfilt
-ln -s ../software/%{pkg_base}/%{name}/bin/psipass2
-ln -s ../software/%{pkg_base}/%{name}/bin/psipred
-ln -s ../software/%{pkg_base}/%{name}/bin/seq2mtx
+ln -s %{ln_path}/runpsipred_single
+ln -s %{ln_path}/runpsipred
+ln -s %{ln_path}/bin/chkparse
+ln -s %{ln_path}/bin/pfilt
+ln -s %{ln_path}/bin/psipass2
+ln -s %{ln_path}/bin/psipred
+ln -s %{ln_path}/bin/seq2mtx
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{name}
+%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
 %define bundle_bin_dir %{install_dir}/__bin__
 
 cd %{install_dir}
@@ -90,7 +91,7 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{name}
+%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 
 %dir %{install_dir}
 %dir %{install_dir}/BLAST+

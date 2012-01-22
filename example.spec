@@ -27,23 +27,23 @@ echo "echo install date" `date` >> script.sh
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{name}
+%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
 %define bundle_bin_dir  %{install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
 install -m 0755 -d %{install_dir}
 install -m 0755 script.sh %{install_dir}
 
-# set up symlinks. These are broken as installed and should be copied to 
-# a bin directory a few parents up where they will then be valid.
+# set up symlinks. These are broken as installed and are to be copied
+# to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
 cd %{bundle_bin_dir}
-ln -s ../software/%{pkg_base}/%{name}/script.sh
+ln -s ../software/%{pkg_base}/%{version}/script.sh
 
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{name}
+%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
 %define bundle_bin_dir %{install_dir}/__bin__
 cd %{install_dir}
 # patch paths
@@ -55,7 +55,7 @@ sed -i  "s|@MACRO@|%{install_dir}|" script.sh
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{name}
+%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 %dir %{install_dir}
 %dir %{install_dir}/__bin__
 %{install_dir}/script.sh
