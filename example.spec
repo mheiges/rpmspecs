@@ -42,6 +42,13 @@ install -m 0755 script.sh %{install_dir}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/script.sh
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
 
 %post
 %define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
@@ -50,6 +57,12 @@ cd %{install_dir}
 # patch paths
 sed -i  "s|@MACRO@|%{install_dir}|" script.sh
 
+%postun
+# remove pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
+if [ ! "$(ls -A %{parent})" ]; then
+    rmdir %{parent}
+fi
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -58,9 +71,12 @@ sed -i  "s|@MACRO@|%{install_dir}|" script.sh
 %defattr(-, root, root)
 %define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 %dir %{install_dir}
-%dir %{install_dir}/__bin__
 %{install_dir}/script.sh
+
+%dir %{install_dir}/__bin__
 %{install_dir}/__bin__/script.sh
+%dir %{install_dir}/__bin__/ReadMe
+
 
 %changelog
 * Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu> 2012.01.19-2

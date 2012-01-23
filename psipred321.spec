@@ -62,6 +62,15 @@ ln -s %{ln_path}/bin/psipass2
 ln -s %{ln_path}/bin/psipred
 ln -s %{ln_path}/bin/seq2mtx
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
+
+
 %post
 %define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
 %define bundle_bin_dir %{install_dir}/__bin__
@@ -125,6 +134,7 @@ fi
 %{install_dir}/__bin__/psipred
 %{install_dir}/__bin__/runpsipred
 %{install_dir}/__bin__/seq2mtx
+%dir %{install_dir}/__bin__/ReadMe
 
 
 

@@ -60,6 +60,14 @@ ln -s %{ln_path}/bin/megablast
 ln -s %{ln_path}/bin/rpsblast
 ln -s %{ln_path}/bin/seedtop
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
+
 %post
 
 %postun
@@ -76,8 +84,6 @@ fi
 %files
 %defattr(-, root, root)
 %define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-
-%dir %{install_dir}/__bin__
 
 # for i in $(find * -type d ); do echo "%dir %{install_dir}/$i"; done;
 %dir %{install_dir}
@@ -154,6 +160,8 @@ fi
 %{install_dir}/bin/makemat
 %{install_dir}/bin/formatrpsdb
 
+%dir %{install_dir}/__bin__
+%{install_dir}/__bin__/ReadMe
 #  for i in $(find . -type f -printf '%P\n'); do echo "%{install_dir}/__bin__/$i"; done;
 %{install_dir}/__bin__/seedtop
 %{install_dir}/__bin__/impala

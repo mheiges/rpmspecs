@@ -44,8 +44,22 @@ install -m 0644 README %{install_dir}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/mdust
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
 
 %post
+
+%postun
+# remove pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
+if [ ! "$(ls -A %{parent})" ]; then
+    rmdir %{parent}
+fi
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -54,10 +68,13 @@ ln -s %{ln_path}/mdust
 %defattr(-, root, root)
 %define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 %dir %{install_dir}
-%dir %{install_dir}/__bin__
+
 %{install_dir}/mdust
 %{install_dir}/LICENSE
 %{install_dir}/README
+
+%dir %{install_dir}/__bin__
+%{install_dir}/__bin__/ReadMe
 %{install_dir}/__bin__/mdust
 
 %changelog

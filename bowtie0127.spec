@@ -97,7 +97,22 @@ ln -s %{ln_path}/scripts/bs_mapability.pl
 ln -s %{ln_path}/scripts/make_a_thaliana_tair.sh
 ln -s %{ln_path}/scripts/make_d_melanogaster_fb5_22.sh
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
+
 %post
+
+%postun
+# remove pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
+if [ ! "$(ls -A %{parent})" ]; then
+    rmdir %{parent}
+fi
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -106,7 +121,6 @@ ln -s %{ln_path}/scripts/make_d_melanogaster_fb5_22.sh
 %defattr(-, root, root)
 %define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 %dir %{install_dir}
-%dir %{install_dir}/__bin__
 %dir %{install_dir}/doc
 %dir %{install_dir}/genomes
 %dir %{install_dir}/indexes
@@ -180,6 +194,8 @@ ln -s %{ln_path}/scripts/make_d_melanogaster_fb5_22.sh
 %{install_dir}/scripts/make_a_thaliana_tair.sh
 %{install_dir}/scripts/make_d_melanogaster_fb5_22.sh
 
+%dir %{install_dir}/__bin__
+%{install_dir}/__bin__/ReadMe
 %{install_dir}/__bin__/bowtie
 %{install_dir}/__bin__/bowtie-build
 %{install_dir}/__bin__/bowtie-inspect

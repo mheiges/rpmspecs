@@ -52,6 +52,13 @@ ln -s %{ln_path}/pslSort
 ln -s %{ln_path}/twoBitInfo
 ln -s %{ln_path}/twoBitToFa
 
+cat > %{bundle_bin_dir}/ReadMe <<EOF
+The symlinks in this directory are provided by the custom software RPM
+providing the software package.
+They are not part of the vendor's original software package. They are 
+invalid links until they are copied to ../../../../bin (say, by Puppet
+or other non-RPM methods).
+EOF
 
 %post
 
@@ -85,6 +92,8 @@ fi
 %{install_dir}/faToTwoBit
 %{install_dir}/pslSort
 
+%dir %{install_dir}/__bin__
+%{install_dir}/__bin__/ReadMe
 #  for i in $(find . -type f -printf '%P\n'); do echo "%{install_dir}/__bin__/$i"; done;
 %{install_dir}/__bin__/gfServer
 %{install_dir}/__bin__/blat
