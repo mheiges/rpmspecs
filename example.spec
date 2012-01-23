@@ -38,8 +38,9 @@ install -m 0755 script.sh %{install_dir}
 # to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
+%define ln_path ../software/%{pkg_base}/%{version}
 cd %{bundle_bin_dir}
-ln -s ../software/%{pkg_base}/%{version}/script.sh
+ln -s %{ln_path}/script.sh
 
 
 %post
