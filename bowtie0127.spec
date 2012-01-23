@@ -5,7 +5,7 @@ Name: bowtie0127
 Version: 0.12.7
 Release: 1%{?dist}
 License: GPL
-Group: Testing
+Group: Application/Bioinformatics
 BuildArch:	x86_64
 
 %define debug_package %{nil}

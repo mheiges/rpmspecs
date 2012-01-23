@@ -5,7 +5,7 @@ Name: mdust20100722
 Version: 2010.07.22
 Release: 1%{?dist}
 License: Artistic
-Group: Testing
+Group: Application/Bioinformatics
 BuildArch:	x86_64
 
 %define debug_package %{nil}

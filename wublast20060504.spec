@@ -5,7 +5,7 @@ Name: wublast20060504
 Version: 2.0MP_20060504
 Release: 1%{?dist}
 License: GPL
-Group: Testing
+Group: Application/Bioinformatics
 BuildArch:	x86_64
 
 %define debug_package %{nil}

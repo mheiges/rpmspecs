@@ -6,7 +6,7 @@ Version: 2.0.0b5
 %define pkg_version 2.0.0-beta5
 Release: 1%{?dist}
 License: GPL
-Group: Testing
+Group: Application/Bioinformatics
 BuildArch:	x86_64
 
 %define debug_package %{nil}

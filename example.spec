@@ -5,7 +5,7 @@ Name: example20120119
 Version: 2012.01.19
 Release: 1%{?dist}
 License: GPL
-Group: Testing
+Group: Application/Bioinformatics
 BuildArch:	x86_64
 
 %define debug_package %{nil}
