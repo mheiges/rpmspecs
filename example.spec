@@ -3,7 +3,7 @@
 Summary: Single, simple example file
 Name: example20120119
 Version: 2012.01.19
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Testing
 BuildArch:	x86_64
@@ -63,5 +63,7 @@ sed -i  "s|@MACRO@|%{install_dir}|" script.sh
 %{install_dir}/__bin__/script.sh
 
 %changelog
+* Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu> 2012.01.19-2
+- change install path to %{prefix}/software/%{pgk_name}/%{version}
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

@@ -3,7 +3,7 @@
 Summary: PSIPRED protein secondary structure prediction
 Name: psipred25
 Version: 2.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -120,5 +120,7 @@ fi
 
 
 %changelog
+* Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu> 2.5-2
+- change install path to %{prefix}/software/%{pgk_name}/%{version}
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.
