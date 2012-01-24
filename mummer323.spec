@@ -287,5 +287,5 @@ fi
 
 
 %changelog
-* Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>
+* Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 3.23-1
 - Initial release.
