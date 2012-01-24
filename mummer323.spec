@@ -13,6 +13,7 @@ Prefix: /opt
 AutoReq: 0
 
 Source0: http://sourceforge.net/projects/mummer/files/mummer/3.23/MUMmer3.23.tar.gz
+Patch0: mummer323-tail.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -21,6 +22,7 @@ MUMmer is a system for rapidly aligning entire genomes.
 
 %prep
 %setup -q -n MUMmer%{version}
+%patch0 -p1
 
 %build
 make check
@@ -112,7 +114,7 @@ cd %{install_dir}
 # remake scripts to fix paths
 cd %{install_dir}/scripts
 make clean BIN_DIR=%{install_dir} > /dev/null
-make BIN_DIR=%{install_dir} > /dev/null
+make BIN_DIR=%{install_dir} AUX_BIN_DIR=%{install_dir}/aux_bin SCRIPT_DIR=%{install_dir}/scripts > /dev/null
 
 
 %postun
