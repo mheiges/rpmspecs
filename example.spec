@@ -75,7 +75,7 @@ fi
 
 %dir %{install_dir}/__bin__
 %{install_dir}/__bin__/script.sh
-%dir %{install_dir}/__bin__/ReadMe
+%{install_dir}/__bin__/ReadMe
 
 
 %changelog

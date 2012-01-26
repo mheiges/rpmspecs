@@ -3,7 +3,7 @@
 Summary: MUMmer is a system for rapidly aligning entire genomes.
 Name: mummer323
 Version: 3.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -264,7 +264,7 @@ fi
 %{install_dir}/show-tiling
 
 %dir %{install_dir}/__bin__
-%dir %{install_dir}/__bin__/ReadMe
+%{install_dir}/__bin__/ReadMe
 %{install_dir}/__bin__/annotate
 %{install_dir}/__bin__/combineMUMs
 %{install_dir}/__bin__/delta-filter
@@ -289,5 +289,7 @@ fi
 
 
 %changelog
+* Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu> 2.5-2
+- declare __bin__/ReadMe as file instead of dir
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 3.23-1
 - Initial release.

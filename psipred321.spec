@@ -3,7 +3,7 @@
 Summary: PSIPRED protein secondary structure prediction
 Name: psipred321
 Version: 3.21
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -134,11 +134,13 @@ fi
 %{install_dir}/__bin__/psipred
 %{install_dir}/__bin__/runpsipred
 %{install_dir}/__bin__/seq2mtx
-%dir %{install_dir}/__bin__/ReadMe
+%{install_dir}/__bin__/ReadMe
 
 
 
 %changelog
+* Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu> 2.5-3
+- declare __bin__/ReadMe as file instead of dir
 * Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu> 3.21-2
 - change install path to %{prefix}/software/%{pgk_name}/%{version}
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
