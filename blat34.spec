@@ -1,7 +1,7 @@
 %define pkg_base blat
 
 Summary: BLAST-Like Alignment Tool
-Name: blat34
+Name: %{pkg_base}-%{version}
 Version: 34
 Release: 1%{?dist}
 License: Custom/Academic
@@ -20,13 +20,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BLAST-Like Alignment Tool
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n blatSrc
 
 %build
 export MACHTYPE=%{_arch}
 export BINDIR=%{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
 mkdir -p $BINDIR
-make
+%{__make}
+
 
 %install
 %define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}

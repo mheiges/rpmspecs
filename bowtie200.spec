@@ -1,7 +1,7 @@
 %define pkg_base bowtie
 
 Summary: bowtie is a short read aligner for short DNA sequences
-Name: bowtie200
+Name: %{pkg_base}-%{version}
 Version: 2.0.0b5
 %define pkg_version 2.0.0-beta5
 Release: 1%{?dist}
@@ -24,6 +24,7 @@ alignment of short DNA sequences to the human genome. Genome Biol 10:R25.
 
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n bowtie2-%{pkg_version}
 
 %build

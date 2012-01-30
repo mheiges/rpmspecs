@@ -1,7 +1,7 @@
 %define pkg_base RMAExpress
 
 Summary: Single, simple example file
-Name: RMAExpress105
+Name: %{pkg_base}-%{version}
 Version: 1.0.5
 Release: 1%{?dist}
 License: GPLv2
@@ -23,6 +23,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 An example RPM of no substance.
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n RMAExpress_%{version} -c RMAExpress_%{version} 
 
 %build

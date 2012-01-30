@@ -1,7 +1,7 @@
 %define pkg_base cndsrc
 
 Summary: Colin Dewey computational biology software
-Name: cndsrc20100423
+Name: %{pkg_base}-%{version}
 Version: 2010.04.23
 Release: 1%{?dist}
 License: GPLv3
@@ -25,6 +25,7 @@ Computational biology software by Colin Dewey, including mercator.
 parametricAlign is not included with this rpm.
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n cndsrc-%{version}
 
 %build

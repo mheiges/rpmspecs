@@ -1,9 +1,9 @@
-%define pkg_base wu-blast
+%define pkg_base wu_blast
 
-Summary: BLAST finds regions of similarity between biological sequences
-Name: wublast20060504
+Summary: Washington University BLAST
+Name: %{pkg_base}-%{version}
 Version: 2.0MP_20060504
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -17,11 +17,14 @@ Source0: http://software.apidb.org/source/blast2.linux26-x64.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+
 %description
+Washington University's BLAST implementation.
 BLAST finds regions of similarity between biological sequences
 
 %prep
-%setup -q -c wublast20060504-%{version}
+%eupa_validate_workflow_pkg_name
+%setup -q -c %{name}
 
 %build
 # precompiled
@@ -39,14 +42,16 @@ install -m 0755 -d %{install_dir}/matrix
 
 cp -a filter %{install_dir}
 cp -a matrix %{install_dir}
-cp -p blastn %{install_dir}
-cp -p blastp %{install_dir}
-cp -p blastx %{install_dir}
-cp -p BLOSUM62 %{install_dir}
-cp -p pressdb %{install_dir}
-cp -p setdb %{install_dir}
-cp -p tblastn %{install_dir}
-cp -p tblastx %{install_dir}
+
+cp -d blastn %{install_dir}
+cp -d blastp %{install_dir}
+cp -d blastx %{install_dir}
+cp -d BLOSUM62 %{install_dir}
+cp -d pressdb %{install_dir}
+cp -d setdb %{install_dir}
+cp -d tblastn %{install_dir}
+cp -d tblastx %{install_dir}
+
 cp -p blasta %{install_dir}
 cp -p COPYRIGHT %{install_dir}
 cp -p FAQ-Indexing.html %{install_dir}
@@ -364,7 +369,5 @@ fi
 
 
 %changelog
-* Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-2
-- several files were not installed by release 1
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-1
 - Initial release.

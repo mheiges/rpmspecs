@@ -1,9 +1,9 @@
 %define pkg_base MUMmer
 
 Summary: MUMmer is a system for rapidly aligning entire genomes.
-Name: mummer323
+Name: %{pkg_base}-%{version}
 Version: 3.23
-Release: 2%{?dist}
+Release: 1%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -21,6 +21,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 MUMmer is a system for rapidly aligning entire genomes.
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n MUMmer%{version}
 %patch0 -p1
 
@@ -289,7 +290,5 @@ fi
 
 
 %changelog
-* Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu> 2.5-2
-- declare __bin__/ReadMe as file instead of dir
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 3.23-1
 - Initial release.

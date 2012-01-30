@@ -1,9 +1,9 @@
 %define pkg_base psipred
 
 Summary: PSIPRED protein secondary structure prediction
-Name: psipred321
+Name: %{pkg_base}-%{version}
 Version: 3.21
-Release: 3%{?dist}
+Release: 1%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -20,6 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 PSIPRED is a  simple and accurate secondary structure prediction method, incorporating two feed-forward neural networks which perform an analysis on output obtained from PSI-BLAST
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -c %{name}-%{version}
 
 
@@ -139,9 +140,5 @@ fi
 
 
 %changelog
-* Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu> 2.5-3
-- declare __bin__/ReadMe as file instead of dir
-* Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu> 3.21-2
-- change install path to %{prefix}/software/%{pgk_name}/%{version}
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

@@ -1,7 +1,7 @@
 %define pkg_base example
 
 Summary: Single, simple example file
-Name: example20120119
+Name: %{pkg_base}-%{version}
 Version: 2012.01.19
 Release: 1%{?dist}
 License: GPL
@@ -20,6 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 An example RPM of no substance.
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n example-%{version}
 
 %build

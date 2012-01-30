@@ -1,7 +1,7 @@
 %define pkg_base hmmer
 
 Summary: biosequence analysis using hidden markov models
-Name: hmmer232
+Name: %{pkg_base}-%{version}
 Version: 2.3.2
 Release: 1%{?dist}
 License: GPLv2
@@ -23,6 +23,7 @@ methods using probabilistic models called profile hidden Markov models
 (profile HMMs).
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n hmmer-%{version}
 
 %build

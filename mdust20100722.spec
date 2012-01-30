@@ -1,7 +1,7 @@
 %define pkg_base mdust
 
 Summary: Standalone low complexity ("dust") filter
-Name: mdust20100722
+Name: %{pkg_base}-%{version}
 Version: 2010.07.22
 Release: 1%{?dist}
 License: Artistic
@@ -20,6 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Standalone low complexity ("dust") filter
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n mdust
 
 %build

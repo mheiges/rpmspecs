@@ -1,7 +1,7 @@
 %define pkg_base clustalw
 
 Summary:  CLUSTAL W Multiple Sequence Alignment Program
-Name: clustalw182
+Name: %{pkg_base}-%{version}
 Version: 1.82
 Release: 1%{?dist}
 License: GNU Lesser General Public License
@@ -20,6 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 CLUSTAL W is a general purpose multiple sequence alignment program for DNA or proteins
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -n clustalw%{version}
 
 %build

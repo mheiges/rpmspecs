@@ -1,7 +1,7 @@
 %define pkg_base phrap
 
 Summary: phrap, cross_mach, swat
-Name: phrap990329
+Name: %{pkg_base}-%{version}
 Version: 0.990329
 Release: 1%{?dist}
 License: Custom/Academic
@@ -12,7 +12,7 @@ BuildArch:	x86_64
 Prefix: /opt
 AutoReq: 0
 
-# original source file name: distrib.tar.Z
+# original source file Name: %{pkg_base}-%{version}
 # 1/23/2012 email from Phil Green <pg@solduc.biotech.washington.edu>
 # to mheiges@uga.edu
 # Subject: phrap/cross_match/swat ver 0.990329 (PROGRAM CODE) 
@@ -47,6 +47,7 @@ observed score distribution is computed.
 
 
 %prep
+%eupa_validate_workflow_pkg_name
 %setup -q -c phrap-%{version}
 %patch0 -p0
 %patch1 -p0
