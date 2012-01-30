@@ -27,7 +27,7 @@ BLAST-Like Alignment Tool
 export MACHTYPE=%{_arch}
 export BINDIR=%{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
 mkdir -p $BINDIR
-%{__make}
+make
 
 
 %install
