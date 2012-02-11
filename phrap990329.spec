@@ -3,10 +3,13 @@
 Summary: phrap, cross_mach, swat
 Name: %{pkg_base}-%{version}
 Version: 0.990329
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
+
+Provides: cluster,swat,cross_match,loco,phrap,phrapview
+
 
 %define debug_package %{nil}
 Prefix: /opt
@@ -64,26 +67,20 @@ make
 install -m 0755 -d %{bundle_bin_dir}
 install -m 0755 -d %{install_dir}
 
-install -m 0755 cluster %{install_dir}
-install -m 0755 swat %{install_dir}
-install -m 0755 cross_match %{install_dir}
-install -m 0755 loco %{install_dir}
-install -m 0755 phrap %{install_dir}
-install -m 0755 phrapview %{install_dir}
+install -m 0711 cluster %{install_dir}
+install -m 0711 swat %{install_dir}
+install -m 0711 cross_match %{install_dir}
+install -m 0711 loco %{install_dir}
+install -m 0711 phrap %{install_dir}
+install -m 0711 phrapview %{install_dir}
 
 install -m 0644 penalty2 %{install_dir}
 install -m 0644 vector.seq %{install_dir}
 install -m 0644 PAM250 %{install_dir}
 install -m 0644 phrap.doc %{install_dir}
-install -m 0644 makefile %{install_dir}
-install -m 0644 swat.h %{install_dir}
 install -m 0644 swat.doc %{install_dir}
-install -m 0644 call_subs.o %{install_dir}
 install -m 0644 general.doc %{install_dir}
-install -m 0644 cross_match %{install_dir}
-install -m 0644 cluster.o %{install_dir}
 install -m 0644 mat50 %{install_dir}
-install -m 0644 loco.o %{install_dir}
 install -m 0644 mat70 %{install_dir}
 install -m 0644 BLOSUM50 %{install_dir}
 install -m 0644 BLOSUM62 %{install_dir}
@@ -131,14 +128,10 @@ fi
 %{install_dir}/BLOSUM50
 %{install_dir}/BLOSUM62
 %{install_dir}/PAM250
-%{install_dir}/call_subs.o
 %{install_dir}/cluster
-%{install_dir}/cluster.o
 %{install_dir}/cross_match
 %{install_dir}/general.doc
 %{install_dir}/loco
-%{install_dir}/loco.o
-%{install_dir}/makefile
 %{install_dir}/mat50
 %{install_dir}/mat70
 %{install_dir}/penalty2
@@ -147,7 +140,6 @@ fi
 %{install_dir}/phrapview
 %{install_dir}/swat
 %{install_dir}/swat.doc
-%{install_dir}/swat.h
 %{install_dir}/vector.seq
 
 %dir %{install_dir}/__bin__
@@ -161,5 +153,7 @@ fi
 
 
 %changelog
+* Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu> 0.990329-2
+- add Provides
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

@@ -1,45 +1,39 @@
-%define pkg_base trf
+%define pkg_base example
 
-Summary: Tandem Repeats Finder
+Summary: Single, simple example file
 Name: %{pkg_base}-%{version}
-Version: 4.04
-Release: 2%{?dist}
-License: Custom
+Version: 2012.01.19
+Release: 1%{?dist}
+License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
-
-Provides: trf
 
 %define debug_package %{nil}
 Prefix: /opt
 AutoReq: 0
 
-Source0: http://tandem.bu.edu/trf/downloads/trf404.linux64
+Source0: http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-linux-x64.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Tandem Repeats Finder is a program to locate and display tandem repeats in DNA sequences.
+An example RPM of no substance.
 
 %prep
 %eupa_validate_workflow_pkg_name
-rm -rf %{_builddir}/%{name}
-mkdir %{_builddir}/%{name}
-cp %{_sourcedir}/trf404.linux64 %{_builddir}/%{name}/trf
-# TIP: RepeatMasker depends on the exe (or a symlink) being named 'trf'
+%setup -q -n example-%{version}
 
 %build
-# precompiled binary
+echo "echo install date" `date` >> script.sh
 
 %install
 %{__rm} -rf %{buildroot}
 %define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
 %define bundle_bin_dir  %{install_dir}/__bin__
 
-cd %{_builddir}/%{name}
 install -m 0755 -d %{bundle_bin_dir}
 install -m 0755 -d %{install_dir}
-install -m 0755 trf %{install_dir}
+install -m 0755 script.sh %{install_dir}
 
 # set up symlinks. These are broken as installed and are to be copied
 # to a bin directory a few parents up where they will then be valid.
@@ -47,7 +41,7 @@ install -m 0755 trf %{install_dir}
 # we have dynamic control over which version is active
 %define ln_path ../software/%{pkg_base}/%{version}
 cd %{bundle_bin_dir}
-ln -s %{ln_path}/trf
+ln -s %{ln_path}/script.sh
 
 cat > %{bundle_bin_dir}/ReadMe <<EOF
 The symlinks in this directory are provided by the custom software RPM
@@ -58,6 +52,11 @@ or other non-RPM methods).
 EOF
 
 %post
+%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
+%define bundle_bin_dir %{install_dir}/__bin__
+cd %{install_dir}
+# patch paths
+sed -i  "s|@MACRO@|%{install_dir}|" script.sh
 
 %postun
 # remove pkg_base dir if empty
@@ -73,15 +72,13 @@ fi
 %defattr(-, root, root)
 %define install_dir  %{prefix}/software/%{pkg_base}/%{version}
 %dir %{install_dir}
-%{install_dir}/trf
+%{install_dir}/script.sh
 
 %dir %{install_dir}/__bin__
-%{install_dir}/__bin__/trf
+%{install_dir}/__bin__/script.sh
 %{install_dir}/__bin__/ReadMe
 
 
 %changelog
-* Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu> 4.04-2
-- add Provides: trf
-* Fri Jan 27 2012 Mark Heiges <mheiges@uga.edu>
+* Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

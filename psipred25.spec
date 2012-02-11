@@ -3,7 +3,7 @@
 Summary: PSIPRED protein secondary structure prediction
 Name: %{pkg_base}-%{version}
 Version: 2.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -52,7 +52,6 @@ cp     runpsipred_single  %{install_dir}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/runpsipred_single
 ln -s %{ln_path}/runpsipred
-ln -s %{ln_path}/bin/chkparse
 ln -s %{ln_path}/bin/pfilt
 ln -s %{ln_path}/bin/psipass2
 ln -s %{ln_path}/bin/psipred
@@ -119,7 +118,6 @@ fi
 %{install_dir}/runpsipred_single
 %{install_dir}/LICENSE
 %{install_dir}/__bin__/runpsipred_single
-%{install_dir}/__bin__/chkparse
 %{install_dir}/__bin__/pfilt
 %{install_dir}/__bin__/psipass2
 %{install_dir}/__bin__/psipred
@@ -130,5 +128,7 @@ fi
 
 
 %changelog
+* Wed Feb 1 2012 Mark Heiges <mheiges@uga.edu> 2.5-2
+- remove invalid chkparse symlink
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

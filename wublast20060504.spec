@@ -3,10 +3,12 @@
 Summary: Washington University BLAST
 Name: %{pkg_base}-%{version}
 Version: 2.0MP_20060504
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
+
+Provides: xdformat,blastn,blastp,blastx,tblastn,tblastx,setdb
 
 %define debug_package %{nil}
 Prefix: /opt
@@ -369,5 +371,7 @@ fi
 
 
 %changelog
+* Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-2
+- add Provides
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-1
 - Initial release.

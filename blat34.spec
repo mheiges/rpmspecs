@@ -62,6 +62,8 @@ invalid links until they are copied to ../../../../bin (say, by Puppet
 or other non-RPM methods).
 EOF
 
+%manifest
+
 %post
 
 %postun
