@@ -1,7 +1,7 @@
-%define pkg_base psipred
+%define _pkg_base psipred
 
 Summary: PSIPRED protein secondary structure prediction
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 2.5
 Release: 2%{?dist}
 License: Custom/Academic
@@ -31,24 +31,24 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir  %{_install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{install_dir}
-cp -a  bin                %{install_dir}
-cp -a  data               %{install_dir}
-cp     LICENSE            %{install_dir}
-cp     README             %{install_dir}
-cp     runpsipred         %{install_dir}
-cp     runpsipred_single  %{install_dir}
+install -m 0755 -d %{_install_dir}
+cp -a  bin                %{_install_dir}
+cp -a  data               %{_install_dir}
+cp     LICENSE            %{_install_dir}
+cp     README             %{_install_dir}
+cp     runpsipred         %{_install_dir}
+cp     runpsipred_single  %{_install_dir}
  
 
 # set up symlinks. These are broken as installed and should be copied to 
 # a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
-%define ln_path ../software/%{pkg_base}/%{version}
+%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/runpsipred_single
 ln -s %{ln_path}/runpsipred
@@ -66,26 +66,26 @@ or other non-RPM methods).
 EOF
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
-%define bundle_bin_dir %{install_dir}/__bin__
+%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir %{_install_dir}/__bin__
 
-cd %{install_dir}
+cd %{_final_install_dir}
 
 # patch paths
-sed -i  "s|^set datadir.*|set datadir = %{install_dir}/data|" runpsipred_single
-sed -i  "s|^set execdir.*|set execdir = %{install_dir}/bin|" runpsipred_single
+sed -i  "s|^set datadir.*|set datadir = %{_install_dir}/data|" runpsipred_single
+sed -i  "s|^set execdir.*|set execdir = %{_install_dir}/bin|" runpsipred_single
 
 sed -i  "s|^set dbname.*|set execdir = \$2|" runpsipred
-sed -i  "s|^set ncbidir.*|set ncbidir = $RPM_INSTALL_PREFIX0/software/ncbi-blast2/ncbi-blast2-2.2.8|" runpsipred
-sed -i  "s|^set execdir.*|set execdir = %{install_dir}/bin|" runpsipred
-sed -i  "s|^set datadir.*|set datadir = %{install_dir}/data|" runpsipred
+sed -i  "s|^set ncbidir.*|set ncbidir = $RPM_INSTALL_PREFIX0/%{_software_topdir}/ncbi-blast2/ncbi-blast2-2.2.8|" runpsipred
+sed -i  "s|^set execdir.*|set execdir = %{_install_dir}/bin|" runpsipred
+sed -i  "s|^set datadir.*|set datadir = %{_install_dir}/data|" runpsipred
 
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -94,36 +94,36 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
-%dir %{install_dir}
-%dir %{install_dir}/data
-%dir %{install_dir}/bin
-%dir %{install_dir}/__bin__
+%dir %{_install_dir}
+%dir %{_install_dir}/data
+%dir %{_install_dir}/bin
+%dir %{_install_dir}/__bin__
 
-%{install_dir}/data/weights.dat3
-%{install_dir}/data/weights.dat
-%{install_dir}/data/weights.dat2
-%{install_dir}/data/weights_p2.dat
-%{install_dir}/data/weights.dat4
-%{install_dir}/data/weights_s.dat
-%{install_dir}/data/weights_s.dat2
-%{install_dir}/data/weights_s.dat3
-%{install_dir}/bin/psipass2
-%{install_dir}/bin/pfilt
-%{install_dir}/bin/seq2mtx
-%{install_dir}/bin/psipred
-%{install_dir}/runpsipred
-%{install_dir}/README
-%{install_dir}/runpsipred_single
-%{install_dir}/LICENSE
-%{install_dir}/__bin__/runpsipred_single
-%{install_dir}/__bin__/pfilt
-%{install_dir}/__bin__/psipass2
-%{install_dir}/__bin__/psipred
-%{install_dir}/__bin__/runpsipred
-%{install_dir}/__bin__/seq2mtx
-%{install_dir}/__bin__/ReadMe
+%{_install_dir}/data/weights.dat3
+%{_install_dir}/data/weights.dat
+%{_install_dir}/data/weights.dat2
+%{_install_dir}/data/weights_p2.dat
+%{_install_dir}/data/weights.dat4
+%{_install_dir}/data/weights_s.dat
+%{_install_dir}/data/weights_s.dat2
+%{_install_dir}/data/weights_s.dat3
+%{_install_dir}/bin/psipass2
+%{_install_dir}/bin/pfilt
+%{_install_dir}/bin/seq2mtx
+%{_install_dir}/bin/psipred
+%{_install_dir}/runpsipred
+%{_install_dir}/README
+%{_install_dir}/runpsipred_single
+%{_install_dir}/LICENSE
+%{_install_dir}/__bin__/runpsipred_single
+%{_install_dir}/__bin__/pfilt
+%{_install_dir}/__bin__/psipass2
+%{_install_dir}/__bin__/psipred
+%{_install_dir}/__bin__/runpsipred
+%{_install_dir}/__bin__/seq2mtx
+%{_install_dir}/__bin__/ReadMe
 
 
 

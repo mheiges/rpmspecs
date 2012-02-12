@@ -1,7 +1,7 @@
-%define pkg_base phred
+%define _pkg_base phred
 
 Summary: Single, simple example file
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 0.071220.c
 Release: 3%{?dist}
 License: GPL
@@ -29,35 +29,35 @@ make daev CFLAGS="-O3 -DANSI_C -DX86_GCC_LINUX"
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
-%define bundle_profile_dir  %{install_dir}/__profile__
-%define bundle_lib_dir  %{install_dir}/__lib__
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir  %{_install_dir}/__bin__
+%define bundle_profile_dir  %{_install_dir}/__profile__
+%define bundle_lib_dir  %{_install_dir}/__lib__
 
-install -m 0755 -d %{install_dir}
+install -m 0755 -d %{_install_dir}
 install -m 0755 -d %{bundle_bin_dir}
 install -m 0755 -d %{bundle_profile_dir}
 install -m 0755 -d %{bundle_lib_dir}
 
-install -m 0711 phred %{install_dir}
-install -m 0711 daev %{install_dir}
+install -m 0711 phred %{_install_dir}
+install -m 0711 daev %{_install_dir}
 
-install -m 0644 phredpar.dat %{install_dir}
+install -m 0644 phredpar.dat %{_install_dir}
 install -m 0644 phredpar.dat %{bundle_lib_dir}
-install -m 0644 INSTALL %{install_dir}
-install -m 0644 NEWS %{install_dir}
-install -m 0644 PHRED.DOC %{install_dir}
-install -m 0644 DAEV.DOC %{install_dir}
+install -m 0644 INSTALL %{_install_dir}
+install -m 0644 NEWS %{_install_dir}
+install -m 0644 PHRED.DOC %{_install_dir}
+install -m 0644 DAEV.DOC %{_install_dir}
 
 cat <<EOF >  %{bundle_profile_dir}/phred.sh
-export PHRED_PARAMETER_FILE=%{install_dir}/phredpar.dat
+export PHRED_PARAMETER_FILE=%{_install_dir}/phredpar.dat
 EOF
 
 # set up symlinks. These are broken as installed and are to be copied
 # to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
-%define ln_path ../software/%{pkg_base}/%{version}
+%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/daev
 ln -s %{ln_path}/phred
@@ -71,16 +71,16 @@ or other non-RPM methods).
 EOF
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
-cat <<EOF >  %{install_dir}/__profile__/phred.sh
-export PHRED_PARAMETER_FILE=%{install_dir}/phredpar.dat
+%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
+cat <<EOF >  %{_install_dir}/__profile__/phred.sh
+export PHRED_PARAMETER_FILE=%{_install_dir}/phredpar.dat
 EOF
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -88,26 +88,26 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-%dir %{install_dir}
-%{install_dir}/daev
-%{install_dir}/phred
-%{install_dir}/phredpar.dat 
-%{install_dir}/INSTALL
-%{install_dir}/NEWS
-%{install_dir}/PHRED.DOC
-%{install_dir}/DAEV.DOC
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
+%{_install_dir}/daev
+%{_install_dir}/phred
+%{_install_dir}/phredpar.dat 
+%{_install_dir}/INSTALL
+%{_install_dir}/NEWS
+%{_install_dir}/PHRED.DOC
+%{_install_dir}/DAEV.DOC
 
-%dir %{install_dir}/__bin__
-%{install_dir}/__bin__/phred
-%{install_dir}/__bin__/daev
-%{install_dir}/__bin__/ReadMe
+%dir %{_install_dir}/__bin__
+%{_install_dir}/__bin__/phred
+%{_install_dir}/__bin__/daev
+%{_install_dir}/__bin__/ReadMe
 
-%dir %{install_dir}/__profile__
-%{install_dir}/__profile__/phred.sh
+%dir %{_install_dir}/__profile__
+%{_install_dir}/__profile__/phred.sh
 
-%dir %{install_dir}/__lib__
-%{install_dir}/__lib__/phredpar.dat
+%dir %{_install_dir}/__lib__
+%{_install_dir}/__lib__/phredpar.dat
 
 %changelog
 * Thu Feb 9 2012 Mark Heiges <mheiges@uga.edu> 0.071220.c-3

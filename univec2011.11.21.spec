@@ -1,7 +1,7 @@
-%define pkg_base univec
+%define _pkg_base univec
 
 Summary: DNA vector sequences from NCBI's UniVec_Core
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 2011.11.21
 Release: 1%{?dist}
 License: Unknown
@@ -33,26 +33,26 @@ cp %{_sourcedir}/README.uv %{_builddir}/%{name}
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
 cd %{_builddir}/%{name}
-install -m 0755 -d %{install_dir}
+install -m 0755 -d %{_install_dir}
 
-install -m 0644 UniVec  %{install_dir}
-install -m 0644 UniVec_Core %{install_dir}
-install -m 0644 README.uv %{install_dir}
+install -m 0644 UniVec  %{_install_dir}
+install -m 0644 UniVec_Core %{_install_dir}
+install -m 0644 README.uv %{_install_dir}
 
-cat << EOF > %{install_dir}/MANIFEST.EUPATH
-software/%{pkg_base}/%{version}/UniVec_Core,lib/screenLibs/vector.seq
+cat << EOF > %{_install_dir}/MANIFEST.EUPATH
+software/%{_pkg_base}/%{version}/UniVec_Core,lib/screenLibs/vector.seq
 EOF
 
 %post
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -60,11 +60,11 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-%{install_dir}/UniVec
-%{install_dir}/UniVec_Core
-%{install_dir}/README.uv
-%{install_dir}/MANIFEST.EUPATH
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%{_install_dir}/UniVec
+%{_install_dir}/UniVec_Core
+%{_install_dir}/README.uv
+%{_install_dir}/MANIFEST.EUPATH
 
 
 %changelog

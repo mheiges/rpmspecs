@@ -1,7 +1,7 @@
-%define pkg_base tRNAscan
+%define _pkg_base tRNAscan
 
 Summary: tRNAscan-SE: An improved tool for transfer RNA detection
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 1.23
 Release: 1%{?dist}
 License: GPLv2
@@ -12,7 +12,7 @@ BuildArch:	x86_64
 Prefix: /opt
 AutoReq: 0
 
-Source0: http://lowelab.ucsc.edu/software/tRNAscan-SE-%{version}.tar.gz
+Source0: http://lowelab.ucsc.edu/%{_software_topdir}/tRNAscan-SE-%{version}.tar.gz
 
 # patch tRNAscan-SE to use FindBin instead of fixed paths
 Patch0: tRNAscan-SE.patch
@@ -33,24 +33,24 @@ make utils
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir  %{_install_dir}/__bin__
 
-make install BINDIR=%{install_dir}/bin LIBDIR=%{install_dir}/lib MANDIR=%{install_dir}/man
-make install-utils BINDIR=%{install_dir}/bin LIBDIR=%{install_dir}/lib MANDIR=%{install_dir}/man
+make install BINDIR=%{_install_dir}/bin LIBDIR=%{_install_dir}/lib MANDIR=%{_install_dir}/man
+make install-utils BINDIR=%{_install_dir}/bin LIBDIR=%{_install_dir}/lib MANDIR=%{_install_dir}/man
 
-install -m 0755 -d %{install_dir}/doc
-install -m 0644 README MANUAL INSTALL COPYING GNULICENSE FILES Release.history %{install_dir}/doc
+install -m 0755 -d %{_install_dir}/doc
+install -m 0644 README MANUAL INSTALL COPYING GNULICENSE FILES Release.history %{_install_dir}/doc
 
-install -m 0755 -d %{install_dir}/Demo
-install -m 0644 Demo/* %{install_dir}/Demo
+install -m 0755 -d %{_install_dir}/Demo
+install -m 0644 Demo/* %{_install_dir}/Demo
 
 # set up symlinks. These are broken as installed and are to be copied
 # to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
 install -m 0755 -d %{bundle_bin_dir}
-%define ln_path ../software/%{pkg_base}/%{version}/bin
+%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}/bin
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/covels-SE
 ln -s %{ln_path}/coves-SE
@@ -73,10 +73,10 @@ EOF
 %post
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -84,65 +84,65 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-%dir %{install_dir}
-%dir %{install_dir}/man
-%dir %{install_dir}/man/man1
-%dir %{install_dir}/bin
-%dir %{install_dir}/lib
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
+%dir %{_install_dir}/man
+%dir %{_install_dir}/man/man1
+%dir %{_install_dir}/bin
+%dir %{_install_dir}/lib
 
-%{install_dir}/bin/covels-SE
-%{install_dir}/bin/coves-SE
-%{install_dir}/bin/eufindtRNA
-%{install_dir}/bin/reformat
-%{install_dir}/bin/revcomp
-%{install_dir}/bin/seqstat
-%{install_dir}/bin/shuffle
-%{install_dir}/bin/trnascan-1.4
-%{install_dir}/bin/tRNAscan-SE
-%{install_dir}/Demo/C28G1.fa
-%{install_dir}/Demo/DQ6060.fa
-%{install_dir}/Demo/F22B7.fa
-%{install_dir}/Demo/F59C12.fa
-%{install_dir}/Demo/Sprz-sub.fa
-%{install_dir}/doc/COPYING
-%{install_dir}/doc/FILES
-%{install_dir}/doc/GNULICENSE
-%{install_dir}/doc/INSTALL
-%{install_dir}/doc/MANUAL
-%{install_dir}/doc/README
-%{install_dir}/doc/Release.history
-%{install_dir}/lib/Dsignal
-%{install_dir}/lib/ESELC.cm
-%{install_dir}/lib/gcode.cilnuc
-%{install_dir}/lib/gcode.echdmito
-%{install_dir}/lib/gcode.invmito
-%{install_dir}/lib/gcode.othmito
-%{install_dir}/lib/gcode.vertmito
-%{install_dir}/lib/gcode.ystmito
-%{install_dir}/lib/PSELC.cm
-%{install_dir}/lib/TPCsignal
-%{install_dir}/lib/TRNA2-arch.cm
-%{install_dir}/lib/TRNA2-archns.cm
-%{install_dir}/lib/TRNA2-bact.cm
-%{install_dir}/lib/TRNA2-bactns.cm
-%{install_dir}/lib/TRNA2-euk.cm
-%{install_dir}/lib/TRNA2-eukns.cm
-%{install_dir}/lib/TRNA2.cm
-%{install_dir}/lib/TRNA2ns.cm
-%{install_dir}/man/man1/tRNAscan-SE.1
+%{_install_dir}/bin/covels-SE
+%{_install_dir}/bin/coves-SE
+%{_install_dir}/bin/eufindtRNA
+%{_install_dir}/bin/reformat
+%{_install_dir}/bin/revcomp
+%{_install_dir}/bin/seqstat
+%{_install_dir}/bin/shuffle
+%{_install_dir}/bin/trnascan-1.4
+%{_install_dir}/bin/tRNAscan-SE
+%{_install_dir}/Demo/C28G1.fa
+%{_install_dir}/Demo/DQ6060.fa
+%{_install_dir}/Demo/F22B7.fa
+%{_install_dir}/Demo/F59C12.fa
+%{_install_dir}/Demo/Sprz-sub.fa
+%{_install_dir}/doc/COPYING
+%{_install_dir}/doc/FILES
+%{_install_dir}/doc/GNULICENSE
+%{_install_dir}/doc/INSTALL
+%{_install_dir}/doc/MANUAL
+%{_install_dir}/doc/README
+%{_install_dir}/doc/Release.history
+%{_install_dir}/lib/Dsignal
+%{_install_dir}/lib/ESELC.cm
+%{_install_dir}/lib/gcode.cilnuc
+%{_install_dir}/lib/gcode.echdmito
+%{_install_dir}/lib/gcode.invmito
+%{_install_dir}/lib/gcode.othmito
+%{_install_dir}/lib/gcode.vertmito
+%{_install_dir}/lib/gcode.ystmito
+%{_install_dir}/lib/PSELC.cm
+%{_install_dir}/lib/TPCsignal
+%{_install_dir}/lib/TRNA2-arch.cm
+%{_install_dir}/lib/TRNA2-archns.cm
+%{_install_dir}/lib/TRNA2-bact.cm
+%{_install_dir}/lib/TRNA2-bactns.cm
+%{_install_dir}/lib/TRNA2-euk.cm
+%{_install_dir}/lib/TRNA2-eukns.cm
+%{_install_dir}/lib/TRNA2.cm
+%{_install_dir}/lib/TRNA2ns.cm
+%{_install_dir}/man/man1/tRNAscan-SE.1
 
-%dir %{install_dir}/__bin__
-%{install_dir}/__bin__/ReadMe
-%{install_dir}/__bin__/covels-SE
-%{install_dir}/__bin__/coves-SE
-%{install_dir}/__bin__/eufindtRNA
-%{install_dir}/__bin__/reformat
-%{install_dir}/__bin__/revcomp
-%{install_dir}/__bin__/seqstat
-%{install_dir}/__bin__/shuffle
-%{install_dir}/__bin__/trnascan-1.4
-%{install_dir}/__bin__/tRNAscan-SE
+%dir %{_install_dir}/__bin__
+%{_install_dir}/__bin__/ReadMe
+%{_install_dir}/__bin__/covels-SE
+%{_install_dir}/__bin__/coves-SE
+%{_install_dir}/__bin__/eufindtRNA
+%{_install_dir}/__bin__/reformat
+%{_install_dir}/__bin__/revcomp
+%{_install_dir}/__bin__/seqstat
+%{_install_dir}/__bin__/shuffle
+%{_install_dir}/__bin__/trnascan-1.4
+%{_install_dir}/__bin__/tRNAscan-SE
 
 
 

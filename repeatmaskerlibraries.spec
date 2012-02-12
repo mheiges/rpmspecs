@@ -1,7 +1,7 @@
-%define pkg_base example
+%define _pkg_base example
 
 Summary: RepeatMasker libraries
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 20110920
 Release: 1%{?dist}
 License: GPL
@@ -28,18 +28,18 @@ echo "echo install date" `date` >> script.sh
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir  %{_install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{install_dir}
-install -m 0755 script.sh %{install_dir}
+install -m 0755 -d %{_install_dir}
+install -m 0755 script.sh %{_install_dir}
 
 # set up symlinks. These are broken as installed and are to be copied
 # to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
-%define ln_path ../software/%{pkg_base}/%{version}
+%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/script.sh
 
@@ -52,17 +52,17 @@ or other non-RPM methods).
 EOF
 
 %post
-%define install_dir $RPM_INSTALL_PREFIX0/software/%{pkg_base}/%{version}
-%define bundle_bin_dir %{install_dir}/__bin__
-cd %{install_dir}
+%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir %{_install_dir}/__bin__
+cd %{_final_install_dir}
 # patch paths
-sed -i  "s|@MACRO@|%{install_dir}|" script.sh
+sed -i  "s|@MACRO@|%{_install_dir}|" script.sh
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -70,13 +70,13 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-%dir %{install_dir}
-%{install_dir}/script.sh
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
+%{_install_dir}/script.sh
 
-%dir %{install_dir}/__bin__
-%{install_dir}/__bin__/script.sh
-%{install_dir}/__bin__/ReadMe
+%dir %{_install_dir}/__bin__
+%{_install_dir}/__bin__/script.sh
+%{_install_dir}/__bin__/ReadMe
 
 
 %changelog

@@ -1,7 +1,7 @@
-%define pkg_base phrap
+%define _pkg_base phrap
 
 Summary: phrap, cross_mach, swat
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 0.990329
 Release: 2%{?dist}
 License: Custom/Academic
@@ -15,7 +15,7 @@ Provides: cluster,swat,cross_match,loco,phrap,phrapview
 Prefix: /opt
 AutoReq: 0
 
-# original source file Name: %{pkg_base}-%{version}
+# original source file Name: %{_pkg_base}-%{version}
 # 1/23/2012 email from Phil Green <pg@solduc.biotech.washington.edu>
 # to mheiges@uga.edu
 # Subject: phrap/cross_match/swat ver 0.990329 (PROGRAM CODE) 
@@ -61,36 +61,36 @@ make
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
+%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%define bundle_bin_dir  %{_install_dir}/__bin__
 
 install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{install_dir}
+install -m 0755 -d %{_install_dir}
 
-install -m 0711 cluster %{install_dir}
-install -m 0711 swat %{install_dir}
-install -m 0711 cross_match %{install_dir}
-install -m 0711 loco %{install_dir}
-install -m 0711 phrap %{install_dir}
-install -m 0711 phrapview %{install_dir}
+install -m 0711 cluster %{_install_dir}
+install -m 0711 swat %{_install_dir}
+install -m 0711 cross_match %{_install_dir}
+install -m 0711 loco %{_install_dir}
+install -m 0711 phrap %{_install_dir}
+install -m 0711 phrapview %{_install_dir}
 
-install -m 0644 penalty2 %{install_dir}
-install -m 0644 vector.seq %{install_dir}
-install -m 0644 PAM250 %{install_dir}
-install -m 0644 phrap.doc %{install_dir}
-install -m 0644 swat.doc %{install_dir}
-install -m 0644 general.doc %{install_dir}
-install -m 0644 mat50 %{install_dir}
-install -m 0644 mat70 %{install_dir}
-install -m 0644 BLOSUM50 %{install_dir}
-install -m 0644 BLOSUM62 %{install_dir}
+install -m 0644 penalty2 %{_install_dir}
+install -m 0644 vector.seq %{_install_dir}
+install -m 0644 PAM250 %{_install_dir}
+install -m 0644 phrap.doc %{_install_dir}
+install -m 0644 swat.doc %{_install_dir}
+install -m 0644 general.doc %{_install_dir}
+install -m 0644 mat50 %{_install_dir}
+install -m 0644 mat70 %{_install_dir}
+install -m 0644 BLOSUM50 %{_install_dir}
+install -m 0644 BLOSUM62 %{_install_dir}
 
 
 # set up symlinks. These are broken as installed and are to be copied
 # to a bin directory a few parents up where they will then be valid.
 # This symlink copy is managed outside RPM (say, with Puppet) so
 # we have dynamic control over which version is active
-%define ln_path ../software/%{pkg_base}/%{version}
+%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
 cd %{bundle_bin_dir}
 ln -s %{ln_path}/cluster
 ln -s %{ln_path}/swat
@@ -111,10 +111,10 @@ EOF
 %post
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
 
 %clean
@@ -122,34 +122,34 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-%dir %{install_dir}
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
 
-%{install_dir}/BLOSUM50
-%{install_dir}/BLOSUM62
-%{install_dir}/PAM250
-%{install_dir}/cluster
-%{install_dir}/cross_match
-%{install_dir}/general.doc
-%{install_dir}/loco
-%{install_dir}/mat50
-%{install_dir}/mat70
-%{install_dir}/penalty2
-%{install_dir}/phrap
-%{install_dir}/phrap.doc
-%{install_dir}/phrapview
-%{install_dir}/swat
-%{install_dir}/swat.doc
-%{install_dir}/vector.seq
+%{_install_dir}/BLOSUM50
+%{_install_dir}/BLOSUM62
+%{_install_dir}/PAM250
+%{_install_dir}/cluster
+%{_install_dir}/cross_match
+%{_install_dir}/general.doc
+%{_install_dir}/loco
+%{_install_dir}/mat50
+%{_install_dir}/mat70
+%{_install_dir}/penalty2
+%{_install_dir}/phrap
+%{_install_dir}/phrap.doc
+%{_install_dir}/phrapview
+%{_install_dir}/swat
+%{_install_dir}/swat.doc
+%{_install_dir}/vector.seq
 
-%dir %{install_dir}/__bin__
-%{install_dir}/__bin__/ReadMe
-%{install_dir}/__bin__/cluster
-%{install_dir}/__bin__/cross_match
-%{install_dir}/__bin__/loco
-%{install_dir}/__bin__/phrap
-%{install_dir}/__bin__/phrapview
-%{install_dir}/__bin__/swat
+%dir %{_install_dir}/__bin__
+%{_install_dir}/__bin__/ReadMe
+%{_install_dir}/__bin__/cluster
+%{_install_dir}/__bin__/cross_match
+%{_install_dir}/__bin__/loco
+%{_install_dir}/__bin__/phrap
+%{_install_dir}/__bin__/phrapview
+%{_install_dir}/__bin__/swat
 
 
 %changelog

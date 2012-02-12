@@ -28,38 +28,35 @@ echo "echo install date" `date` >> script.sh
 
 %install
 %{__rm} -rf %{buildroot}
-install -m 0755 -d %{_install_dir}
-install -m 0755 script.sh %{_install_dir}
-install -m 0644 data.dat %{_install_dir}
-install -m 0644 example.sh %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
+install -m 0755 script.sh %{_pre_install_dir}
+install -m 0644 data.dat %{_pre_install_dir}
+install -m 0644 example.sh %{_pre_install_dir}
 
-%mfest_lib data.dat screenLibs/vector.seq
-%mfest_bin script.sh
-%mfest_profile example.sh
+
+#%%mfest_lib data.dat screenLibs/vector.seq
+#%%mfest_bin script.sh
+#%%mfest_profile example.sh
 
 %post
-cd %{_final_install_dir}
-sed -i  "s|@MACRO@|%{_final_install_dir}|" script.sh
+cd %{_post_install_dir}
+sed -i  "s|@MACRO@|%{_post_install_dir}|" script.sh
 
 %postun
-# remove _pkg_base dir if empty
-%define _parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
+
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %{_install_dir}/script.sh
 %{_install_dir}/example.sh
 %{_install_dir}/data.dat
 
-%{_manifest_file}
+#%%{_manifest_file}
 
 %changelog
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>

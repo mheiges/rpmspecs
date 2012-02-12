@@ -1,7 +1,7 @@
-%define pkg_base blat
+%define _pkg_base blat
 
 Summary: BLAST-Like Alignment Tool
-Name: %{pkg_base}-%{version}
+Name: %{_pkg_base}-%{version}
 Version: 34
 Release: 1%{?dist}
 License: Custom/Academic
@@ -25,53 +25,49 @@ BLAST-Like Alignment Tool
 
 %build
 export MACHTYPE=%{_arch}
-export BINDIR=%{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-mkdir -p $BINDIR
+export BINDIR=$PWD/_BUILD
+mkdir $BINDIR
 make
 
 
 %install
-%define install_dir  %{buildroot}/%{prefix}/software/%{pkg_base}/%{version}
-%define bundle_bin_dir  %{install_dir}/__bin__
+%{__rm} -rf %{buildroot}
+install -m 0755 -d %{buildroot}
 
-install -m 0755 -d %{bundle_bin_dir}
+cd _BUILD
+install -m 0755 blat %{buildroot}
+install -m 0755 faToNib %{buildroot}
+install -m 0755 faToTwoBit %{buildroot}
+install -m 0755 gfClient %{buildroot}
+install -m 0755 gfServer %{buildroot}
+install -m 0755 nibFrag %{buildroot}
+install -m 0755 pslPretty %{buildroot}
+install -m 0755 pslReps %{buildroot}
+install -m 0755 pslSort %{buildroot}
+install -m 0755 twoBitInfo %{buildroot}
+install -m 0755 twoBitToFa %{buildroot}
 
-# set up symlinks. These are broken as installed and should be copied to 
-# a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../software/%{pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/blat
-ln -s %{ln_path}/faToNib
-ln -s %{ln_path}/faToTwoBit
-ln -s %{ln_path}/gfClient
-ln -s %{ln_path}/gfServer
-ln -s %{ln_path}/nibFrag
-ln -s %{ln_path}/pslPretty
-ln -s %{ln_path}/pslReps
-ln -s %{ln_path}/pslSort
-ln -s %{ln_path}/twoBitInfo
-ln -s %{ln_path}/twoBitToFa
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
-
-%manifest
+%mfest_bin blat
+%mfest_bin faToNib
+%mfest_bin faToTwoBit
+%mfest_bin gfClient
+%mfest_bin gfServer
+%mfest_bin nibFrag
+%mfest_bin pslPretty
+%mfest_bin pslReps
+%mfest_bin pslSort
+%mfest_bin twoBitInfo
+%mfest_bin twoBitToFa
 
 %post
 
 %postun
-# remove pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/software/%{pkg_base}
-if [ ! "$(ls -A %{parent})" ]; then
-    rmdir %{parent}
+# remove _pkg_base dir if empty
+%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
+if [ ! "$(ls -A %{_parent})" ]; then
+    rmdir %{_parent}
 fi
+
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -79,37 +75,20 @@ fi
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/software/%{pkg_base}/%{version}
-
-%dir %{install_dir}
-
-# for i in $(find . -type f -printf '%P\n'); do echo "%{install_dir}/$i"; done;
-%{install_dir}/gfServer
-%{install_dir}/blat
-%{install_dir}/faToNib
-%{install_dir}/pslPretty
-%{install_dir}/nibFrag
-%{install_dir}/pslReps
-%{install_dir}/twoBitInfo
-%{install_dir}/gfClient
-%{install_dir}/twoBitToFa
-%{install_dir}/faToTwoBit
-%{install_dir}/pslSort
-
-%dir %{install_dir}/__bin__
-%{install_dir}/__bin__/ReadMe
-#  for i in $(find . -type f -printf '%P\n'); do echo "%{install_dir}/__bin__/$i"; done;
-%{install_dir}/__bin__/gfServer
-%{install_dir}/__bin__/blat
-%{install_dir}/__bin__/faToNib
-%{install_dir}/__bin__/pslPretty
-%{install_dir}/__bin__/nibFrag
-%{install_dir}/__bin__/pslReps
-%{install_dir}/__bin__/twoBitInfo
-%{install_dir}/__bin__/gfClient
-%{install_dir}/__bin__/twoBitToFa
-%{install_dir}/__bin__/faToTwoBit
-%{install_dir}/__bin__/pslSort
+%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
+%{_install_dir}/gfServer
+%{_install_dir}/blat
+%{_install_dir}/faToNib
+%{_install_dir}/pslPretty
+%{_install_dir}/nibFrag
+%{_install_dir}/pslReps
+%{_install_dir}/twoBitInfo
+%{_install_dir}/gfClient
+%{_install_dir}/twoBitToFa
+%{_install_dir}/faToTwoBit
+%{_install_dir}/pslSort
+%{_manifest_file}
 
 
 %changelog

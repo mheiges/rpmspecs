@@ -29,11 +29,11 @@ cp %{_sourcedir}/phredpar.dat %{_builddir}/%{name}
 
 %install
 %{__rm} -rf %{buildroot}
-%define install_dir  %{buildroot}/%{prefix}/lib
+%define _install_dir  %{buildroot}/%{prefix}/lib
 
 cd %{_builddir}/%{name}
-install -m 0755 -d %{install_dir}
-install -m 0644 phredpar.dat %{install_dir}
+install -m 0755 -d %{_install_dir}
+install -m 0644 phredpar.dat %{_install_dir}
 
 %post
 
@@ -44,8 +44,8 @@ install -m 0644 phredpar.dat %{install_dir}
 
 %files
 %defattr(-, root, root)
-%define install_dir  %{prefix}/lib
-%{install_dir}/phredpar.dat
+%define _install_dir  %{prefix}/lib
+%{_install_dir}/phredpar.dat
 
 
 %changelog
