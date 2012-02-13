@@ -3,7 +3,7 @@
 Summary: BLAST finds regions of similarity between biological sequences
 Name: %{_pkg_base}-%{version}
 Version: 2.2.25
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -27,56 +27,33 @@ BLAST finds regions of similarity between biological sequences
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-cp -a  bin                %{_install_dir}
-cp -a  data               %{_install_dir}
-cp -a  doc                %{_install_dir}
-cp -a  bin                %{_install_dir}
-cp     VERSION            %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
+cp -a  bin                %{_pre_install_dir}
+cp -a  data               %{_pre_install_dir}
+cp -a  doc                %{_pre_install_dir}
+cp -a  bin                %{_pre_install_dir}
+cp     VERSION            %{_pre_install_dir}
  
 
-# set up symlinks. These are broken as installed and should be copied to 
-# a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active.
-#
-# for i in bin/*; do echo "ln -s %{ln_path}/$i"; done;
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/bin/bl2seq
-ln -s %{ln_path}/bin/blastall
-ln -s %{ln_path}/bin/blastclust
-ln -s %{ln_path}/bin/blastpgp
-ln -s %{ln_path}/bin/copymat
-ln -s %{ln_path}/bin/fastacmd
-ln -s %{ln_path}/bin/formatdb
-ln -s %{ln_path}/bin/formatrpsdb
-ln -s %{ln_path}/bin/impala
-ln -s %{ln_path}/bin/makemat
-ln -s %{ln_path}/bin/megablast
-ln -s %{ln_path}/bin/rpsblast
-ln -s %{ln_path}/bin/seedtop
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
+%mfest_bin  bin/bl2seq            bl2seq
+%mfest_bin  bin/blastall          blastall
+%mfest_bin  bin/blastclust        blastclust
+%mfest_bin  bin/blastpgp          blastpgp
+%mfest_bin  bin/copymat           copymat
+%mfest_bin  bin/fastacmd          fastacmd
+%mfest_bin  bin/formatdb          formatdb
+%mfest_bin  bin/formatrpsdb       formatrpsdb
+%mfest_bin  bin/impala            impala
+%mfest_bin  bin/makemat           makemat
+%mfest_bin  bin/megablast         megablast
+%mfest_bin  bin/rpsblast          rpsblast
+%mfest_bin  bin/seedtop           seedtop
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -84,7 +61,6 @@ fi
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
 # for i in $(find * -type d ); do echo "%dir %{_install_dir}/$i"; done;
 %dir %{_install_dir}
@@ -161,23 +137,10 @@ fi
 %{_install_dir}/bin/makemat
 %{_install_dir}/bin/formatrpsdb
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-#  for i in $(find . -type f -printf '%P\n'); do echo "%{_install_dir}/__bin__/$i"; done;
-%{_install_dir}/__bin__/seedtop
-%{_install_dir}/__bin__/impala
-%{_install_dir}/__bin__/megablast
-%{_install_dir}/__bin__/blastall
-%{_install_dir}/__bin__/blastpgp
-%{_install_dir}/__bin__/fastacmd
-%{_install_dir}/__bin__/formatdb
-%{_install_dir}/__bin__/copymat
-%{_install_dir}/__bin__/rpsblast
-%{_install_dir}/__bin__/bl2seq
-%{_install_dir}/__bin__/blastclust
-%{_install_dir}/__bin__/makemat
-%{_install_dir}/__bin__/formatrpsdb
+%{_install_dir}/%{_manifest_file}
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2.2.25-2
+- use MANIFEST.EUPATH
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

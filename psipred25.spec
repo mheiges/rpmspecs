@@ -3,7 +3,7 @@
 Summary: PSIPRED protein secondary structure prediction
 Name: %{_pkg_base}-%{version}
 Version: 2.5
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -31,62 +31,36 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-cp -a  bin                %{_install_dir}
-cp -a  data               %{_install_dir}
-cp     LICENSE            %{_install_dir}
-cp     README             %{_install_dir}
-cp     runpsipred         %{_install_dir}
-cp     runpsipred_single  %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
+cp -a  bin                %{_pre_install_dir}
+cp -a  data               %{_pre_install_dir}
+cp     LICENSE            %{_pre_install_dir}
+cp     README             %{_pre_install_dir}
+cp     runpsipred         %{_pre_install_dir}
+cp     runpsipred_single  %{_pre_install_dir}
  
-
-# set up symlinks. These are broken as installed and should be copied to 
-# a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/runpsipred_single
-ln -s %{ln_path}/runpsipred
-ln -s %{ln_path}/bin/pfilt
-ln -s %{ln_path}/bin/psipass2
-ln -s %{ln_path}/bin/psipred
-ln -s %{ln_path}/bin/seq2mtx
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
+%mfest_bin  runpsipred_single      
+%mfest_bin  runpsipred             
+%mfest_bin  bin/pfilt              pfilt
+%mfest_bin  bin/psipass2           psipass2
+%mfest_bin  bin/psipred            psipred
+%mfest_bin  bin/seq2mtx            seq2mtx
 
 %post
-%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir %{_install_dir}/__bin__
+cd %{_post_install_dir}
 
-cd %{_final_install_dir}
-
-# patch paths
-sed -i  "s|^set datadir.*|set datadir = %{_install_dir}/data|" runpsipred_single
-sed -i  "s|^set execdir.*|set execdir = %{_install_dir}/bin|" runpsipred_single
+sed -i  "s|^set datadir.*|set datadir = %{_post_install_dir}/data|" runpsipred_single
+sed -i  "s|^set execdir.*|set execdir = %{_post_install_dir}/bin|" runpsipred_single
 
 sed -i  "s|^set dbname.*|set execdir = \$2|" runpsipred
 sed -i  "s|^set ncbidir.*|set ncbidir = $RPM_INSTALL_PREFIX0/%{_software_topdir}/ncbi-blast2/ncbi-blast2-2.2.8|" runpsipred
-sed -i  "s|^set execdir.*|set execdir = %{_install_dir}/bin|" runpsipred
-sed -i  "s|^set datadir.*|set datadir = %{_install_dir}/data|" runpsipred
+sed -i  "s|^set execdir.*|set execdir = %{_post_install_dir}/bin|" runpsipred
+sed -i  "s|^set datadir.*|set datadir = %{_post_install_dir}/data|" runpsipred
 
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -94,12 +68,10 @@ fi
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
 %dir %{_install_dir}
 %dir %{_install_dir}/data
 %dir %{_install_dir}/bin
-%dir %{_install_dir}/__bin__
 
 %{_install_dir}/data/weights.dat3
 %{_install_dir}/data/weights.dat
@@ -117,17 +89,13 @@ fi
 %{_install_dir}/README
 %{_install_dir}/runpsipred_single
 %{_install_dir}/LICENSE
-%{_install_dir}/__bin__/runpsipred_single
-%{_install_dir}/__bin__/pfilt
-%{_install_dir}/__bin__/psipass2
-%{_install_dir}/__bin__/psipred
-%{_install_dir}/__bin__/runpsipred
-%{_install_dir}/__bin__/seq2mtx
-%{_install_dir}/__bin__/ReadMe
 
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2.5-3
+- add MANIFEST.EUPATH
 * Wed Feb 1 2012 Mark Heiges <mheiges@uga.edu> 2.5-2
 - remove invalid chkparse symlink
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>

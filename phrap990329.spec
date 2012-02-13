@@ -3,7 +3,7 @@
 Summary: phrap, cross_mach, swat
 Name: %{_pkg_base}-%{version}
 Version: 0.990329
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -61,68 +61,45 @@ make
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
 
-install -m 0711 cluster %{_install_dir}
-install -m 0711 swat %{_install_dir}
-install -m 0711 cross_match %{_install_dir}
-install -m 0711 loco %{_install_dir}
-install -m 0711 phrap %{_install_dir}
-install -m 0711 phrapview %{_install_dir}
+install -m 0711 cluster %{_pre_install_dir}
+install -m 0711 swat %{_pre_install_dir}
+install -m 0711 cross_match %{_pre_install_dir}
+install -m 0711 loco %{_pre_install_dir}
+install -m 0711 phrap %{_pre_install_dir}
+install -m 0711 phrapview %{_pre_install_dir}
 
-install -m 0644 penalty2 %{_install_dir}
-install -m 0644 vector.seq %{_install_dir}
-install -m 0644 PAM250 %{_install_dir}
-install -m 0644 phrap.doc %{_install_dir}
-install -m 0644 swat.doc %{_install_dir}
-install -m 0644 general.doc %{_install_dir}
-install -m 0644 mat50 %{_install_dir}
-install -m 0644 mat70 %{_install_dir}
-install -m 0644 BLOSUM50 %{_install_dir}
-install -m 0644 BLOSUM62 %{_install_dir}
+install -m 0644 penalty2 %{_pre_install_dir}
+install -m 0644 vector.seq %{_pre_install_dir}
+install -m 0644 PAM250 %{_pre_install_dir}
+install -m 0644 phrap.doc %{_pre_install_dir}
+install -m 0644 swat.doc %{_pre_install_dir}
+install -m 0644 general.doc %{_pre_install_dir}
+install -m 0644 mat50 %{_pre_install_dir}
+install -m 0644 mat70 %{_pre_install_dir}
+install -m 0644 BLOSUM50 %{_pre_install_dir}
+install -m 0644 BLOSUM62 %{_pre_install_dir}
 
+%mfest_bin  cluster                              
+%mfest_bin  swat                              
+%mfest_bin  cross_match                              
+%mfest_bin  loco                              
+%mfest_bin  phrap                              
+%mfest_bin  phrapview                              
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/cluster
-ln -s %{ln_path}/swat
-ln -s %{ln_path}/cross_match
-ln -s %{ln_path}/loco
-ln -s %{ln_path}/phrap
-ln -s %{ln_path}/phrapview
-
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 
 %{_install_dir}/BLOSUM50
@@ -142,17 +119,12 @@ fi
 %{_install_dir}/swat.doc
 %{_install_dir}/vector.seq
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/cluster
-%{_install_dir}/__bin__/cross_match
-%{_install_dir}/__bin__/loco
-%{_install_dir}/__bin__/phrap
-%{_install_dir}/__bin__/phrapview
-%{_install_dir}/__bin__/swat
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 0.990329-3
+- add MANIFEST.EUPATH
 * Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu> 0.990329-2
 - add Provides
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>

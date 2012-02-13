@@ -3,7 +3,7 @@
 Summary: Utilities for manipulating SAM formated DNA sequence alignments.
 Name: %{_pkg_base}-%{version}
 Version: 0.1.18
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -29,115 +29,92 @@ make razip
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
-
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-install -m 0755 -d %{_install_dir}/bcftools
-install -m 0755 -d %{_install_dir}/examples
-install -m 0755 -d %{_install_dir}/man
-install -m 0755 -d %{_install_dir}/man/man1
-install -m 0755 -d %{_install_dir}/misc
+install -m 0755 -d %{_pre_install_dir}
+install -m 0755 -d %{_pre_install_dir}/bcftools
+install -m 0755 -d %{_pre_install_dir}/examples
+install -m 0755 -d %{_pre_install_dir}/man
+install -m 0755 -d %{_pre_install_dir}/man/man1
+install -m 0755 -d %{_pre_install_dir}/misc
 
 
-install -m 0755 bcftools/bcftools %{_install_dir}/bcftools
-install -m 0755 bcftools/vcfutils.pl %{_install_dir}/bcftools
-install -m 0755 misc/blast2sam.pl %{_install_dir}/misc
-install -m 0755 misc/bowtie2sam.pl %{_install_dir}/misc
-install -m 0755 misc/export2sam.pl %{_install_dir}/misc
-install -m 0755 misc/interpolate_sam.pl %{_install_dir}/misc
-install -m 0755 misc/maq2sam-long %{_install_dir}/misc
-install -m 0755 misc/maq2sam-short %{_install_dir}/misc
-install -m 0755 misc/md5fa %{_install_dir}/misc
-install -m 0755 misc/md5sum-lite %{_install_dir}/misc
-install -m 0755 misc/novo2sam.pl %{_install_dir}/misc
-install -m 0755 misc/psl2sam.pl %{_install_dir}/misc
-install -m 0755 misc/sam2vcf.pl %{_install_dir}/misc
-install -m 0755 misc/samtools.pl %{_install_dir}/misc
-install -m 0755 misc/seqtk %{_install_dir}/misc
-install -m 0755 misc/soap2sam.pl %{_install_dir}/misc
-install -m 0755 misc/varfilter.py %{_install_dir}/misc
-install -m 0755 misc/wgsim %{_install_dir}/misc
-install -m 0755 misc/wgsim_eval.pl %{_install_dir}/misc
-install -m 0755 misc/zoom2sam.pl %{_install_dir}/misc
-install -m 0755 razip %{_install_dir}
-install -m 0755 samtools %{_install_dir}
+install -m 0755 bcftools/bcftools %{_pre_install_dir}/bcftools
+install -m 0755 bcftools/vcfutils.pl %{_pre_install_dir}/bcftools
+install -m 0755 misc/blast2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/bowtie2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/export2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/interpolate_sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/maq2sam-long %{_pre_install_dir}/misc
+install -m 0755 misc/maq2sam-short %{_pre_install_dir}/misc
+install -m 0755 misc/md5fa %{_pre_install_dir}/misc
+install -m 0755 misc/md5sum-lite %{_pre_install_dir}/misc
+install -m 0755 misc/novo2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/psl2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/sam2vcf.pl %{_pre_install_dir}/misc
+install -m 0755 misc/samtools.pl %{_pre_install_dir}/misc
+install -m 0755 misc/seqtk %{_pre_install_dir}/misc
+install -m 0755 misc/soap2sam.pl %{_pre_install_dir}/misc
+install -m 0755 misc/varfilter.py %{_pre_install_dir}/misc
+install -m 0755 misc/wgsim %{_pre_install_dir}/misc
+install -m 0755 misc/wgsim_eval.pl %{_pre_install_dir}/misc
+install -m 0755 misc/zoom2sam.pl %{_pre_install_dir}/misc
+install -m 0755 razip %{_pre_install_dir}
+install -m 0755 samtools %{_pre_install_dir}
 
-install -m 0644 AUTHORS %{_install_dir}
-install -m 0644 bcftools/bcf.tex %{_install_dir}/bcftools
-install -m 0644 bcftools/README %{_install_dir}/bcftools
-install -m 0644 ChangeLog %{_install_dir}
-install -m 0644 COPYING %{_install_dir}
-install -m 0644 examples/00README.txt %{_install_dir}/examples
-install -m 0644 examples/ex1.fa %{_install_dir}/examples
-install -m 0644 examples/ex1.sam.gz %{_install_dir}/examples
-install -m 0644 examples/toy.fa %{_install_dir}/examples
-install -m 0644 examples/toy.sam %{_install_dir}/examples
-install -m 0644 INSTALL %{_install_dir}
-install -m 0644 misc/HmmGlocal.java %{_install_dir}/misc
-install -m 0644 NEWS %{_install_dir}
-install -m 0644 samtools.1 %{_install_dir}/man/man1
+install -m 0644 AUTHORS %{_pre_install_dir}
+install -m 0644 bcftools/bcf.tex %{_pre_install_dir}/bcftools
+install -m 0644 bcftools/README %{_pre_install_dir}/bcftools
+install -m 0644 ChangeLog %{_pre_install_dir}
+install -m 0644 COPYING %{_pre_install_dir}
+install -m 0644 examples/00README.txt %{_pre_install_dir}/examples
+install -m 0644 examples/ex1.fa %{_pre_install_dir}/examples
+install -m 0644 examples/ex1.sam.gz %{_pre_install_dir}/examples
+install -m 0644 examples/toy.fa %{_pre_install_dir}/examples
+install -m 0644 examples/toy.sam %{_pre_install_dir}/examples
+install -m 0644 INSTALL %{_pre_install_dir}
+install -m 0644 misc/HmmGlocal.java %{_pre_install_dir}/misc
+install -m 0644 NEWS %{_pre_install_dir}
+install -m 0644 samtools.1 %{_pre_install_dir}/man/man1
 
+%mfest_bin  bcftools/bcftools          bcftools
+%mfest_bin  bcftools/vcfutils.pl       vcfutils.pl
+%mfest_bin  misc/blast2sam.pl          blast2sam.pl
+%mfest_bin  misc/bowtie2sam.pl         bowtie2sam.pl
+%mfest_bin  misc/export2sam.pl         export2sam.pl
+%mfest_bin  misc/interpolate_sam.pl    interpolate_sam.pl
+%mfest_bin  misc/maq2sam-long          maq2sam-long
+%mfest_bin  misc/maq2sam-short         maq2sam-short
+%mfest_bin  misc/md5fa                 md5fa
+%mfest_bin  misc/md5sum-lite           md5sum-lite
+%mfest_bin  misc/novo2sam.pl           novo2sam.pl
+%mfest_bin  misc/psl2sam.pl            psl2sam.pl
+%mfest_bin  misc/sam2vcf.pl            sam2vcf.pl
+%mfest_bin  misc/samtools.pl           samtools.pl
+%mfest_bin  misc/seqtk                 seqtk
+%mfest_bin  misc/soap2sam.pl           soap2sam.pl
+%mfest_bin  misc/varfilter.py          varfilter.py
+%mfest_bin  misc/wgsim                 wgsim
+%mfest_bin  misc/wgsim_eval.pl         wgsim_eval.pl
+%mfest_bin  misc/zoom2sam.pl           zoom2sam.pl
+%mfest_bin  razip                      
+%mfest_bin  samtools                   
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/bcftools/bcftools
-ln -s %{ln_path}/bcftools/vcfutils.pl
-ln -s %{ln_path}/misc/blast2sam.pl
-ln -s %{ln_path}/misc/bowtie2sam.pl
-ln -s %{ln_path}/misc/export2sam.pl
-ln -s %{ln_path}/misc/interpolate_sam.pl
-ln -s %{ln_path}/misc/maq2sam-long
-ln -s %{ln_path}/misc/maq2sam-short
-ln -s %{ln_path}/misc/md5fa
-ln -s %{ln_path}/misc/md5sum-lite
-ln -s %{ln_path}/misc/novo2sam.pl
-ln -s %{ln_path}/misc/psl2sam.pl
-ln -s %{ln_path}/misc/sam2vcf.pl
-ln -s %{ln_path}/misc/samtools.pl
-ln -s %{ln_path}/misc/seqtk
-ln -s %{ln_path}/misc/soap2sam.pl
-ln -s %{ln_path}/misc/varfilter.py
-ln -s %{ln_path}/misc/wgsim
-ln -s %{ln_path}/misc/wgsim_eval.pl
-ln -s %{ln_path}/misc/zoom2sam.pl
-ln -s %{ln_path}/razip
-ln -s %{ln_path}/samtools
-
-
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/misc
 %dir %{_install_dir}/bcftools
 %dir %{_install_dir}/examples
+%dir %{_install_dir}/man
+%dir %{_install_dir}/man/man1
 
 %{_install_dir}/AUTHORS
 %{_install_dir}/bcftools/bcf.tex
@@ -178,31 +155,10 @@ fi
 %{_install_dir}/samtools
 %{_install_dir}/man/man1/samtools.1
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/bcftools
-%{_install_dir}/__bin__/blast2sam.pl
-%{_install_dir}/__bin__/bowtie2sam.pl
-%{_install_dir}/__bin__/export2sam.pl
-%{_install_dir}/__bin__/interpolate_sam.pl
-%{_install_dir}/__bin__/maq2sam-long
-%{_install_dir}/__bin__/maq2sam-short
-%{_install_dir}/__bin__/md5fa
-%{_install_dir}/__bin__/md5sum-lite
-%{_install_dir}/__bin__/novo2sam.pl
-%{_install_dir}/__bin__/psl2sam.pl
-%{_install_dir}/__bin__/razip
-%{_install_dir}/__bin__/sam2vcf.pl
-%{_install_dir}/__bin__/samtools
-%{_install_dir}/__bin__/samtools.pl
-%{_install_dir}/__bin__/seqtk
-%{_install_dir}/__bin__/soap2sam.pl
-%{_install_dir}/__bin__/varfilter.py
-%{_install_dir}/__bin__/vcfutils.pl
-%{_install_dir}/__bin__/wgsim
-%{_install_dir}/__bin__/wgsim_eval.pl
-%{_install_dir}/__bin__/zoom2sam.pl
+%{_install_dir}/%{_manifest_file}
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 0.1.18-2
+- add MANIFEST.EUPATH
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

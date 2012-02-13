@@ -3,7 +3,7 @@
 Summary: multiple DNA sequence alignment program
 Name: %{_pkg_base}-%{version}
 Version: 2.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: open source
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -28,91 +28,68 @@ make
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-install -m 0755 -d %{_install_dir}/examples
-install -m 0755 -d %{_install_dir}/mavid
-install -m 0755 -d %{_install_dir}/utils
-install -m 0755 -d %{_install_dir}/utils/checkfasta
-install -m 0755 -d %{_install_dir}/utils/cut_alignment
-install -m 0755 -d %{_install_dir}/utils/extract_seq
-install -m 0755 -d %{_install_dir}/utils/extract_tree
-install -m 0755 -d %{_install_dir}/utils/fasta2phylip
-install -m 0755 -d %{_install_dir}/utils/phylip2fasta
-install -m 0755 -d %{_install_dir}/utils/project_alignment
-install -m 0755 -d %{_install_dir}/utils/randtree
-install -m 0755 -d %{_install_dir}/utils/root_tree
-install -m 0755 -d %{_install_dir}/utils/translate_coords
-install -m 0755 -d %{_install_dir}/utils/tree_dists
+install -m 0755 -d %{_pre_install_dir}
+install -m 0755 -d %{_pre_install_dir}/examples
+install -m 0755 -d %{_pre_install_dir}/mavid
+install -m 0755 -d %{_pre_install_dir}/utils
+install -m 0755 -d %{_pre_install_dir}/utils/checkfasta
+install -m 0755 -d %{_pre_install_dir}/utils/cut_alignment
+install -m 0755 -d %{_pre_install_dir}/utils/extract_seq
+install -m 0755 -d %{_pre_install_dir}/utils/extract_tree
+install -m 0755 -d %{_pre_install_dir}/utils/fasta2phylip
+install -m 0755 -d %{_pre_install_dir}/utils/phylip2fasta
+install -m 0755 -d %{_pre_install_dir}/utils/project_alignment
+install -m 0755 -d %{_pre_install_dir}/utils/randtree
+install -m 0755 -d %{_pre_install_dir}/utils/root_tree
+install -m 0755 -d %{_pre_install_dir}/utils/translate_coords
+install -m 0755 -d %{_pre_install_dir}/utils/tree_dists
 
-install -m 0755 mavid/mavid %{_install_dir}/mavid
-install -m 0755 mavid/mavid.pl %{_install_dir}/mavid
-install -m 0755 utils/checkfasta/checkfasta %{_install_dir}/utils/checkfasta
-install -m 0755 utils/cut_alignment/cut_alignment %{_install_dir}/utils/cut_alignment
-install -m 0755 utils/extract_seq/extract_seq %{_install_dir}/utils/extract_seq
-install -m 0755 utils/extract_tree/extract_tree %{_install_dir}/utils/extract_tree
-install -m 0755 utils/fasta2phylip/fasta2phylip %{_install_dir}/utils/fasta2phylip
-install -m 0755 utils/phylip2fasta/phylip2fasta %{_install_dir}/utils/phylip2fasta
-install -m 0755 utils/project_alignment/project_alignment %{_install_dir}/utils/project_alignment
-install -m 0755 utils/randtree/randtree %{_install_dir}/utils/randtree
-install -m 0755 utils/root_tree/root_tree %{_install_dir}/utils/root_tree
-install -m 0755 utils/tree_dists/tree_dists %{_install_dir}/utils/tree_dists
+install -m 0755 mavid/mavid %{_pre_install_dir}/mavid
+install -m 0755 mavid/mavid.pl %{_pre_install_dir}/mavid
+install -m 0755 utils/checkfasta/checkfasta %{_pre_install_dir}/utils/checkfasta
+install -m 0755 utils/cut_alignment/cut_alignment %{_pre_install_dir}/utils/cut_alignment
+install -m 0755 utils/extract_seq/extract_seq %{_pre_install_dir}/utils/extract_seq
+install -m 0755 utils/extract_tree/extract_tree %{_pre_install_dir}/utils/extract_tree
+install -m 0755 utils/fasta2phylip/fasta2phylip %{_pre_install_dir}/utils/fasta2phylip
+install -m 0755 utils/phylip2fasta/phylip2fasta %{_pre_install_dir}/utils/phylip2fasta
+install -m 0755 utils/project_alignment/project_alignment %{_pre_install_dir}/utils/project_alignment
+install -m 0755 utils/randtree/randtree %{_pre_install_dir}/utils/randtree
+install -m 0755 utils/root_tree/root_tree %{_pre_install_dir}/utils/root_tree
+install -m 0755 utils/tree_dists/tree_dists %{_pre_install_dir}/utils/tree_dists
 
-install -m 0644 INSTALL %{_install_dir}
-install -m 0644 mavid/README %{_install_dir}/mavid
-install -m 0644 Copyright %{_install_dir}
-install -m 0644 examples/unrooted_tree %{_install_dir}/examples
-install -m 0644 examples/seqs %{_install_dir}/examples
-install -m 0644 examples/seqs.masked %{_install_dir}/examples
-install -m 0644 examples/tree %{_install_dir}/examples
-install -m 0644 examples/README %{_install_dir}/examples
+install -m 0644 INSTALL %{_pre_install_dir}
+install -m 0644 mavid/README %{_pre_install_dir}/mavid
+install -m 0644 Copyright %{_pre_install_dir}
+install -m 0644 examples/unrooted_tree %{_pre_install_dir}/examples
+install -m 0644 examples/seqs %{_pre_install_dir}/examples
+install -m 0644 examples/seqs.masked %{_pre_install_dir}/examples
+install -m 0644 examples/tree %{_pre_install_dir}/examples
+install -m 0644 examples/README %{_pre_install_dir}/examples
 
-
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/mavid/mavid
-ln -s %{ln_path}/mavid/mavid.pl
-ln -s %{ln_path}/utils/project_alignment/project_alignment
-ln -s %{ln_path}/utils/randtree/randtree
-ln -s %{ln_path}/utils/root_tree/root_tree
-ln -s %{ln_path}/utils/fasta2phylip/fasta2phylip
-ln -s %{ln_path}/utils/extract_seq/extract_seq
-ln -s %{ln_path}/utils/tree_dists/tree_dists
-ln -s %{ln_path}/utils/checkfasta/checkfasta
-ln -s %{ln_path}/utils/cut_alignment/cut_alignment
-ln -s %{ln_path}/utils/extract_tree/extract_tree
-ln -s %{ln_path}/utils/phylip2fasta/phylip2fasta
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
+%mfest_bin  mavid/mavid                                mavid
+%mfest_bin  mavid/mavid.pl                             mavid.pl
+%mfest_bin  utils/project_alignment/project_alignment  project_alignment
+%mfest_bin  utils/randtree/randtree                    randtree
+%mfest_bin  utils/root_tree/root_tree                  root_tree
+%mfest_bin  utils/fasta2phylip/fasta2phylip            fasta2phylip
+%mfest_bin  utils/extract_seq/extract_seq              extract_seq
+%mfest_bin  utils/tree_dists/tree_dists                tree_dists
+%mfest_bin  utils/checkfasta/checkfasta                checkfasta
+%mfest_bin  utils/cut_alignment/cut_alignment          cut_alignment
+%mfest_bin  utils/extract_tree/extract_tree            extract_tree
+%mfest_bin  utils/phylip2fasta/phylip2fasta            phylip2fasta
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
 %dir %{_install_dir}
 %dir %{_install_dir}/examples
@@ -151,23 +128,11 @@ fi
 %{_install_dir}/utils/root_tree/root_tree
 %{_install_dir}/utils/tree_dists/tree_dists
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/mavid
-%{_install_dir}/__bin__/mavid.pl
-%{_install_dir}/__bin__/project_alignment
-%{_install_dir}/__bin__/randtree
-%{_install_dir}/__bin__/root_tree
-%{_install_dir}/__bin__/fasta2phylip
-%{_install_dir}/__bin__/extract_seq
-%{_install_dir}/__bin__/tree_dists
-%{_install_dir}/__bin__/checkfasta
-%{_install_dir}/__bin__/cut_alignment
-%{_install_dir}/__bin__/extract_tree
-%{_install_dir}/__bin__/phylip2fasta
-
-%{_install_dir}/__bin__/ReadMe
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2.0.4-2
+- use MANIFEST.EUPATH
 * Thu Feb 2 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

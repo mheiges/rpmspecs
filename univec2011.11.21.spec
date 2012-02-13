@@ -3,7 +3,7 @@
 Summary: DNA vector sequences from NCBI's UniVec_Core
 Name: %{_pkg_base}-%{version}
 Version: 2011.11.21
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Unknown
 Group: Application/Bioinformatics
 BuildArch: x86_64
@@ -33,40 +33,37 @@ cp %{_sourcedir}/README.uv %{_builddir}/%{name}
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 
 cd %{_builddir}/%{name}
-install -m 0755 -d %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
 
-install -m 0644 UniVec  %{_install_dir}
-install -m 0644 UniVec_Core %{_install_dir}
-install -m 0644 README.uv %{_install_dir}
+install -m 0644 UniVec  %{_pre_install_dir}
+install -m 0644 UniVec_Core %{_pre_install_dir}
+install -m 0644 README.uv %{_pre_install_dir}
 
-cat << EOF > %{_install_dir}/MANIFEST.EUPATH
-software/%{_pkg_base}/%{version}/UniVec_Core,lib/screenLibs/vector.seq
-EOF
+%mfest_lib UniVec_Core screenLibs/vector.seq
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
+%dir %{_install_dir}
+
 %{_install_dir}/UniVec
 %{_install_dir}/UniVec_Core
 %{_install_dir}/README.uv
-%{_install_dir}/MANIFEST.EUPATH
+
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2011.11.21-2
+- updated to use eupath macros
 * Wed Feb 8 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

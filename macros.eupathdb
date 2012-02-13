@@ -2,7 +2,7 @@
 ### DEFINITIONS ####################################################################
 
 
-%_manifest_file %{buildroot}/MANIFEST.EUPATH
+%_manifest_file MANIFEST.EUPATH
 
 %_software_topdir software
 
@@ -25,11 +25,34 @@
         }
 
 ####################################################################################
+# Add entries to a manifest file that documents desired symlinks after installation.
+# The symlink creation is managed by a non-RPM process (eg. manually or Puppet)
+#
+# First argument is the file, relative to buildroot.
+# Second argument is the name of the desired symlink to be
+# created in %{prefix}/bin, %{prefix}/profile, etc. 
+# The second argument can be omitted if it's to be exactly the same as
+# the first.
+#
+#
+# %mfest_bin   bowtie-inspect
+# %mfest_bin   scripts/gen_occ_lookup.pl               gen_occ_lookup.pl
+#
+# Will make manifest entries
+#
+# software/bowtie/0.12.7/bowtie-inspect,bin/bowtie-inspect
+# software/bowtie/0.12.7/scripts/gen_occ_lookup.pl,bin/gen_occ_lookup.pl
+#
+# The external manifest reader should create symlinks
+#
+# %{prefix}/bin/bowtie-inspect -> %{prefix}/software/bowtie/0.12.7/bowtie-inspect
+# %{prefix}/bin/gen_occ_lookup.pl -> %{prefix}/software/bowtie/0.12.7/scripts/gen_occ_lookup.pl
+
 %mfest() \
-if test -f $src; then \
-  echo %{_software_topdir}/%{_pkg_base}/%{version}/$src,$path/$dest >> %{_manifest_file} \
+if test -f %{_pre_install_dir}/$src; then \
+  echo %{_software_topdir}/%{_pkg_base}/%{version}/$src,$path/$dest >> %{_pre_install_dir}/%{_manifest_file} \
 else \
-  echo $src not found in $PWD when adding to manifest \
+  echo %{_pre_install_dir}/$src not found when adding to manifest \
   exit 1 \
 fi\
 %{nil}

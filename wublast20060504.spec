@@ -3,7 +3,7 @@
 Summary: Washington University BLAST
 Name: %{_pkg_base}-%{version}
 Version: 2.0MP_20060504
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -33,100 +33,79 @@ BLAST finds regions of similarity between biological sequences
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-install -m 0755 -d %{_install_dir}/filter
-install -m 0755 -d %{_install_dir}/matrix
+install -m 0755 -d %{_pre_install_dir}
+install -m 0755 -d %{_pre_install_dir}/filter
+install -m 0755 -d %{_pre_install_dir}/matrix
 
 
-cp -a filter %{_install_dir}
-cp -a matrix %{_install_dir}
+cp -a filter %{_pre_install_dir}
+cp -a matrix %{_pre_install_dir}
 
-cp -d blastn %{_install_dir}
-cp -d blastp %{_install_dir}
-cp -d blastx %{_install_dir}
-cp -d BLOSUM62 %{_install_dir}
-cp -d pressdb %{_install_dir}
-cp -d setdb %{_install_dir}
-cp -d tblastn %{_install_dir}
-cp -d tblastx %{_install_dir}
+cp -d blastn %{_pre_install_dir}
+cp -d blastp %{_pre_install_dir}
+cp -d blastx %{_pre_install_dir}
+cp -d BLOSUM62 %{_pre_install_dir}
+cp -d pressdb %{_pre_install_dir}
+cp -d setdb %{_pre_install_dir}
+cp -d tblastn %{_pre_install_dir}
+cp -d tblastx %{_pre_install_dir}
 
-cp -p blasta %{_install_dir}
-cp -p COPYRIGHT %{_install_dir}
-cp -p FAQ-Indexing.html %{_install_dir}
-cp -p gb2fasta %{_install_dir}
-cp -p gt2fasta %{_install_dir}
-cp -p HISTORY %{_install_dir}
-cp -p LICENSE %{_install_dir}
-cp -p memfile %{_install_dir}
-cp -p Memory.html %{_install_dir}
-cp -p nrdb %{_install_dir}
-cp -p pam %{_install_dir}
-cp -p parameters.html %{_install_dir}
-cp -p patdb %{_install_dir}
-cp -p pir2fasta %{_install_dir}
-cp -p README.html %{_install_dir}
-cp -p sp2fasta %{_install_dir}
-cp -p sysblast.sample %{_install_dir}
-cp -p tabular.html %{_install_dir}
-cp -p wu-blastall %{_install_dir}
-cp -p wu-formatdb %{_install_dir}
-cp -p xdformat %{_install_dir}
-cp -p xdget %{_install_dir}
+cp -p blasta %{_pre_install_dir}
+cp -p COPYRIGHT %{_pre_install_dir}
+cp -p FAQ-Indexing.html %{_pre_install_dir}
+cp -p gb2fasta %{_pre_install_dir}
+cp -p gt2fasta %{_pre_install_dir}
+cp -p HISTORY %{_pre_install_dir}
+cp -p LICENSE %{_pre_install_dir}
+cp -p memfile %{_pre_install_dir}
+cp -p Memory.html %{_pre_install_dir}
+cp -p nrdb %{_pre_install_dir}
+cp -p pam %{_pre_install_dir}
+cp -p parameters.html %{_pre_install_dir}
+cp -p patdb %{_pre_install_dir}
+cp -p pir2fasta %{_pre_install_dir}
+cp -p README.html %{_pre_install_dir}
+cp -p sp2fasta %{_pre_install_dir}
+cp -p sysblast.sample %{_pre_install_dir}
+cp -p tabular.html %{_pre_install_dir}
+cp -p wu-blastall %{_pre_install_dir}
+cp -p wu-formatdb %{_pre_install_dir}
+cp -p xdformat %{_pre_install_dir}
+cp -p xdget %{_pre_install_dir}
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/blasta
-ln -s %{ln_path}/blastn
-ln -s %{ln_path}/blastp
-ln -s %{ln_path}/blastx
-ln -s %{ln_path}/gb2fasta
-ln -s %{ln_path}/gt2fasta
-ln -s %{ln_path}/memfile
-ln -s %{ln_path}/nrdb
-ln -s %{ln_path}/pam
-ln -s %{ln_path}/patdb
-ln -s %{ln_path}/pir2fasta
-ln -s %{ln_path}/pressdb
-ln -s %{ln_path}/setdb
-ln -s %{ln_path}/sp2fasta
-ln -s %{ln_path}/tblastn
-ln -s %{ln_path}/tblastx
-ln -s %{ln_path}/wu-blastall
-ln -s %{ln_path}/wu-formatdb
-ln -s %{ln_path}/xdformat
-ln -s %{ln_path}/xdget
+%mfest_bin  blasta                              
+%mfest_bin  blastn                              
+%mfest_bin  blastp                              
+%mfest_bin  blastx                              
+%mfest_bin  gb2fasta                              
+%mfest_bin  gt2fasta                              
+%mfest_bin  memfile                              
+%mfest_bin  nrdb                              
+%mfest_bin  pam                              
+%mfest_bin  patdb                              
+%mfest_bin  pir2fasta                              
+%mfest_bin  pressdb                              
+%mfest_bin  setdb                              
+%mfest_bin  sp2fasta                              
+%mfest_bin  tblastn                              
+%mfest_bin  tblastx                              
+%mfest_bin  wu-blastall                              
+%mfest_bin  wu-formatdb                              
+%mfest_bin  xdformat                              
+%mfest_bin  xdget                              
 
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/filter
 %dir %{_install_dir}/matrix
@@ -346,31 +325,12 @@ fi
 %{_install_dir}/xdformat
 %{_install_dir}/xdget
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/blasta
-%{_install_dir}/__bin__/blastn
-%{_install_dir}/__bin__/blastp
-%{_install_dir}/__bin__/blastx
-%{_install_dir}/__bin__/gb2fasta
-%{_install_dir}/__bin__/gt2fasta
-%{_install_dir}/__bin__/memfile
-%{_install_dir}/__bin__/nrdb
-%{_install_dir}/__bin__/pam
-%{_install_dir}/__bin__/patdb
-%{_install_dir}/__bin__/pir2fasta
-%{_install_dir}/__bin__/pressdb
-%{_install_dir}/__bin__/setdb
-%{_install_dir}/__bin__/sp2fasta
-%{_install_dir}/__bin__/tblastn
-%{_install_dir}/__bin__/tblastx
-%{_install_dir}/__bin__/wu-blastall
-%{_install_dir}/__bin__/wu-formatdb
-%{_install_dir}/__bin__/xdformat
-%{_install_dir}/__bin__/xdget
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-3
+- add MANIFEST.EUPATH
 * Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-2
 - add Provides
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 2.0MP_20060504-1

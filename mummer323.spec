@@ -3,7 +3,7 @@
 Summary: MUMmer is a system for rapidly aligning entire genomes.
 Name: %{_pkg_base}-%{version}
 Version: 3.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -31,106 +31,82 @@ make install
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
 # install everything but  src/
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
+install -m 0755 -d %{_pre_install_dir}
 
-install -m 0755 annotate %{_install_dir}
-install -m 0755 combineMUMs %{_install_dir}
-install -m 0755 delta-filter %{_install_dir}
-install -m 0755 dnadiff %{_install_dir}
-install -m 0755 exact-tandems %{_install_dir}
-install -m 0755 gaps %{_install_dir}
-install -m 0755 mapview %{_install_dir}
-install -m 0755 mgaps %{_install_dir}
-install -m 0755 mummer %{_install_dir}
-install -m 0755 mummerplot %{_install_dir}
-install -m 0755 nucmer %{_install_dir}
-install -m 0755 nucmer2xfig %{_install_dir}
-install -m 0755 promer %{_install_dir}
-install -m 0755 repeat-match %{_install_dir}
-install -m 0755 run-mummer1 %{_install_dir}
-install -m 0755 run-mummer3 %{_install_dir}
-install -m 0755 show-aligns %{_install_dir}
-install -m 0755 show-coords %{_install_dir}
-install -m 0755 show-diff %{_install_dir}
-install -m 0755 show-snps %{_install_dir}
-install -m 0755 show-tiling %{_install_dir}
+install -m 0755 annotate %{_pre_install_dir}
+install -m 0755 combineMUMs %{_pre_install_dir}
+install -m 0755 delta-filter %{_pre_install_dir}
+install -m 0755 dnadiff %{_pre_install_dir}
+install -m 0755 exact-tandems %{_pre_install_dir}
+install -m 0755 gaps %{_pre_install_dir}
+install -m 0755 mapview %{_pre_install_dir}
+install -m 0755 mgaps %{_pre_install_dir}
+install -m 0755 mummer %{_pre_install_dir}
+install -m 0755 mummerplot %{_pre_install_dir}
+install -m 0755 nucmer %{_pre_install_dir}
+install -m 0755 nucmer2xfig %{_pre_install_dir}
+install -m 0755 promer %{_pre_install_dir}
+install -m 0755 repeat-match %{_pre_install_dir}
+install -m 0755 run-mummer1 %{_pre_install_dir}
+install -m 0755 run-mummer3 %{_pre_install_dir}
+install -m 0755 show-aligns %{_pre_install_dir}
+install -m 0755 show-coords %{_pre_install_dir}
+install -m 0755 show-diff %{_pre_install_dir}
+install -m 0755 show-snps %{_pre_install_dir}
+install -m 0755 show-tiling %{_pre_install_dir}
 
-install -m 0644 ACKNOWLEDGEMENTS %{_install_dir}
-install -m 0644 ChangeLog %{_install_dir}
-install -m 0644 COPYRIGHT %{_install_dir}
-install -m 0644 INSTALL %{_install_dir}
-install -m 0644 LICENSE %{_install_dir}
-install -m 0644 README %{_install_dir}
+install -m 0644 ACKNOWLEDGEMENTS %{_pre_install_dir}
+install -m 0644 ChangeLog %{_pre_install_dir}
+install -m 0644 COPYRIGHT %{_pre_install_dir}
+install -m 0644 INSTALL %{_pre_install_dir}
+install -m 0644 LICENSE %{_pre_install_dir}
+install -m 0644 README %{_pre_install_dir}
 
-cp -a aux_bin %{_install_dir}
-cp -a scripts %{_install_dir}
-cp -a docs %{_install_dir}
+cp -a aux_bin %{_pre_install_dir}
+cp -a scripts %{_pre_install_dir}
+cp -a docs %{_pre_install_dir}
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/annotate
-ln -s %{ln_path}/combineMUMs
-ln -s %{ln_path}/delta-filter
-ln -s %{ln_path}/dnadiff
-ln -s %{ln_path}/exact-tandems
-ln -s %{ln_path}/gaps
-ln -s %{ln_path}/mapview
-ln -s %{ln_path}/mgaps
-ln -s %{ln_path}/mummer
-ln -s %{ln_path}/mummerplot
-ln -s %{ln_path}/nucmer
-ln -s %{ln_path}/nucmer2xfig
-ln -s %{ln_path}/promer
-ln -s %{ln_path}/repeat-match
-ln -s %{ln_path}/run-mummer1
-ln -s %{ln_path}/run-mummer3
-ln -s %{ln_path}/show-aligns
-ln -s %{ln_path}/show-coords
-ln -s %{ln_path}/show-diff
-ln -s %{ln_path}/show-snps
-ln -s %{ln_path}/show-tiling
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
+%mfest_bin  annotate                              
+%mfest_bin  combineMUMs                              
+%mfest_bin  delta-filter                              
+%mfest_bin  dnadiff                              
+%mfest_bin  exact-tandems                              
+%mfest_bin  gaps                              
+%mfest_bin  mapview                              
+%mfest_bin  mgaps                              
+%mfest_bin  mummer                              
+%mfest_bin  mummerplot                              
+%mfest_bin  nucmer                              
+%mfest_bin  nucmer2xfig                              
+%mfest_bin  promer                              
+%mfest_bin  repeat-match                              
+%mfest_bin  run-mummer1                              
+%mfest_bin  run-mummer3                              
+%mfest_bin  show-aligns                              
+%mfest_bin  show-coords                              
+%mfest_bin  show-diff                              
+%mfest_bin  show-snps                              
+%mfest_bin  show-tiling                              
 
 %post
-%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir %{_install_dir}/__bin__
-cd %{_final_install_dir}
+cd %{_final_post_install_dir}
 
 # remake scripts to fix paths
-cd %{_final_install_dir}/scripts
-make clean BIN_DIR=%{_install_dir} > /dev/null
-make BIN_DIR=%{_install_dir} AUX_BIN_DIR=%{_install_dir}/aux_bin SCRIPT_DIR=%{_install_dir}/scripts > /dev/null
+cd %{_post_post_install_dir}/scripts
+make clean BIN_DIR=%{_post_post_install_dir} > /dev/null
+make BIN_DIR=%{_post_post_install_dir} AUX_BIN_DIR=%{_post_post_install_dir}/aux_bin SCRIPT_DIR=%{_post_post_install_dir}/scripts > /dev/null
 
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/aux_bin
 %dir %{_install_dir}/scripts
@@ -264,31 +240,11 @@ fi
 %{_install_dir}/show-snps
 %{_install_dir}/show-tiling
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/annotate
-%{_install_dir}/__bin__/combineMUMs
-%{_install_dir}/__bin__/delta-filter
-%{_install_dir}/__bin__/dnadiff
-%{_install_dir}/__bin__/exact-tandems
-%{_install_dir}/__bin__/gaps
-%{_install_dir}/__bin__/mapview
-%{_install_dir}/__bin__/mgaps
-%{_install_dir}/__bin__/mummer
-%{_install_dir}/__bin__/mummerplot
-%{_install_dir}/__bin__/nucmer
-%{_install_dir}/__bin__/nucmer2xfig
-%{_install_dir}/__bin__/promer
-%{_install_dir}/__bin__/repeat-match
-%{_install_dir}/__bin__/run-mummer1
-%{_install_dir}/__bin__/run-mummer3
-%{_install_dir}/__bin__/show-aligns
-%{_install_dir}/__bin__/show-coords
-%{_install_dir}/__bin__/show-diff
-%{_install_dir}/__bin__/show-snps
-%{_install_dir}/__bin__/show-tiling
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 3.23-2
+- use MANIFEST.EUPATH
 * Mon Jan 23 2012 Mark Heiges <mheiges@uga.edu> 3.23-1
 - Initial release.

@@ -3,7 +3,7 @@
 Summary: Single, simple example file
 Name: %{_pkg_base}-%{version}
 Version: 0.020425.c
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -29,66 +29,46 @@ make daev CFLAGS="-O3 -DANSI_C -DX86_GCC_LINUX"
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
-%define bundle_profile_dir  %{_install_dir}/__profile__
-%define bundle_lib_dir  %{_install_dir}/__lib__
 
-install -m 0755 -d %{_install_dir}
-install -m 0755 -d %{bundle_bin_dir}
+%define bundle_profile_dir  %{_pre_install_dir}/__profile__
+
+install -m 0755 -d %{_pre_install_dir}
 install -m 0755 -d %{bundle_profile_dir}
 install -m 0755 -d %{bundle_lib_dir}
 
-install -m 0711 phred %{_install_dir}
-install -m 0711 daev %{_install_dir}
+install -m 0711 phred %{_pre_install_dir}
+install -m 0711 daev %{_pre_install_dir}
 
-install -m 0644 phredpar.dat %{_install_dir}
+install -m 0644 phredpar.dat %{_pre_install_dir}
+install -m 0644 INSTALL %{_pre_install_dir}
+install -m 0644 NEWS %{_pre_install_dir}
+install -m 0644 PHRED.DOC %{_pre_install_dir}
+install -m 0644 DAEV.DOC %{_pre_install_dir}
+
 install -m 0644 phredpar.dat %{bundle_lib_dir}
-install -m 0644 INSTALL %{_install_dir}
-install -m 0644 NEWS %{_install_dir}
-install -m 0644 PHRED.DOC %{_install_dir}
-install -m 0644 DAEV.DOC %{_install_dir}
 
 cat <<EOF >  %{bundle_profile_dir}/phred.sh
-export PHRED_PARAMETER_FILE=%{_install_dir}/phredpar.dat
+export PHRED_PARAMETER_FILE=%{_pre_install_dir}/phredpar.dat
 EOF
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/daev
-ln -s %{ln_path}/phred
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
+%mfest_bin       daev                              
+%mfest_bin       phred                              
+%mfest_profile   __profile__/phred.sh phred.sh
+%mfest_lib       phredpar.dat
 
 %post
-%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
-cat <<EOF >  %{_install_dir}/__profile__/phred.sh
-export PHRED_PARAMETER_FILE=%{_install_dir}/phredpar.dat
+cat <<EOF >  %{_post_install_dir}/__profile__/phred.sh
+export PHRED_PARAMETER_FILE=%{_post_install_dir}/phredpar.dat
 EOF
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %{_install_dir}/daev
 %{_install_dir}/phred
@@ -98,19 +78,15 @@ fi
 %{_install_dir}/PHRED.DOC
 %{_install_dir}/DAEV.DOC
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/phred
-%{_install_dir}/__bin__/daev
-%{_install_dir}/__bin__/ReadMe
-
 %dir %{_install_dir}/__profile__
 %{_install_dir}/__profile__/phred.sh
 
-%dir %{_install_dir}/__lib__
-%{_install_dir}/__lib__/phredpar.dat
+%{_install_dir}/%{_manifest_file}
 
 %changelog
-* Thu Feb 9 2012 Mark Heiges <mheiges@uga.edu> 0.071220.c-3
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-4
+- add MANIFEST.EUPATH
+* Thu Feb 9 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-3
 - fix $PHRED_PARAMETER_FILE
 * Tue Feb 7 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-2
 - clean up profile directory management

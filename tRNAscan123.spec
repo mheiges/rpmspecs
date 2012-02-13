@@ -3,7 +3,7 @@
 Summary: tRNAscan-SE: An improved tool for transfer RNA detection
 Name: %{_pkg_base}-%{version}
 Version: 1.23
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -33,58 +33,37 @@ make utils
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-make install BINDIR=%{_install_dir}/bin LIBDIR=%{_install_dir}/lib MANDIR=%{_install_dir}/man
-make install-utils BINDIR=%{_install_dir}/bin LIBDIR=%{_install_dir}/lib MANDIR=%{_install_dir}/man
+make install BINDIR=%{_pre_install_dir}/bin LIBDIR=%{_pre_install_dir}/lib MANDIR=%{_pre_install_dir}/man
+make install-utils BINDIR=%{_pre_install_dir}/bin LIBDIR=%{_pre_install_dir}/lib MANDIR=%{_pre_install_dir}/man
 
-install -m 0755 -d %{_install_dir}/doc
-install -m 0644 README MANUAL INSTALL COPYING GNULICENSE FILES Release.history %{_install_dir}/doc
+install -m 0755 -d %{_pre_install_dir}/doc
+install -m 0644 README MANUAL INSTALL COPYING GNULICENSE FILES Release.history %{_pre_install_dir}/doc
 
-install -m 0755 -d %{_install_dir}/Demo
-install -m 0644 Demo/* %{_install_dir}/Demo
+install -m 0755 -d %{_pre_install_dir}/Demo
+install -m 0644 Demo/* %{_pre_install_dir}/Demo
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-install -m 0755 -d %{bundle_bin_dir}
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}/bin
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/covels-SE
-ln -s %{ln_path}/coves-SE
-ln -s %{ln_path}/eufindtRNA
-ln -s %{ln_path}/reformat
-ln -s %{ln_path}/revcomp
-ln -s %{ln_path}/seqstat
-ln -s %{ln_path}/shuffle
-ln -s %{ln_path}/trnascan-1.4
-ln -s %{ln_path}/tRNAscan-SE
+%mfest_bin  bin/covels-SE       covels-SE                  
+%mfest_bin  bin/coves-SE        coves-SE                  
+%mfest_bin  bin/eufindtRNA      eufindtRNA                  
+%mfest_bin  bin/reformat        reformat                  
+%mfest_bin  bin/revcomp         revcomp                  
+%mfest_bin  bin/seqstat         seqstat                  
+%mfest_bin  bin/shuffle         shuffle                  
+%mfest_bin  bin/trnascan-1.4    trnascan-1.4                  
+%mfest_bin  bin/tRNAscan-SE     tRNAscan-SE                  
 
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/man
 %dir %{_install_dir}/man/man1
@@ -132,20 +111,11 @@ fi
 %{_install_dir}/lib/TRNA2ns.cm
 %{_install_dir}/man/man1/tRNAscan-SE.1
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/covels-SE
-%{_install_dir}/__bin__/coves-SE
-%{_install_dir}/__bin__/eufindtRNA
-%{_install_dir}/__bin__/reformat
-%{_install_dir}/__bin__/revcomp
-%{_install_dir}/__bin__/seqstat
-%{_install_dir}/__bin__/shuffle
-%{_install_dir}/__bin__/trnascan-1.4
-%{_install_dir}/__bin__/tRNAscan-SE
-
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 1.23-2
+- add MANIFEST.EUPATH
 * Fri Feb 3 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

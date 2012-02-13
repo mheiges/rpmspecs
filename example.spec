@@ -34,9 +34,9 @@ install -m 0644 data.dat %{_pre_install_dir}
 install -m 0644 example.sh %{_pre_install_dir}
 
 
-#%%mfest_lib data.dat screenLibs/vector.seq
-#%%mfest_bin script.sh
-#%%mfest_profile example.sh
+%mfest_lib     data.dat screenLibs/vector.seq
+%mfest_bin     script.sh
+%mfest_profile example.sh
 
 %post
 cd %{_post_install_dir}
@@ -56,7 +56,7 @@ sed -i  "s|@MACRO@|%{_post_install_dir}|" script.sh
 %{_install_dir}/example.sh
 %{_install_dir}/data.dat
 
-#%%{_manifest_file}
+%{_install_dir}/%{_manifest_file}
 
 %changelog
 * Wed Jan 19 2012 Mark Heiges <mheiges@uga.edu>

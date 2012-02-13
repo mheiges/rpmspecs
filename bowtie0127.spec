@@ -3,7 +3,7 @@
 Summary: bowtie is a short read aligner for short DNA sequences
 Name: %{_pkg_base}-%{version}
 Version: 0.12.7
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -31,96 +31,73 @@ make
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
+install -m 0755 -d %{_pre_install_dir}
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
+cp -a doc %{_pre_install_dir}
+cp -a genomes %{_pre_install_dir}
+cp -a indexes %{_pre_install_dir}
+cp -a reads %{_pre_install_dir}
+cp -a scripts %{_pre_install_dir}
+install -m 0755 bowtie-inspect %{_pre_install_dir}
+install -m 0755 bowtie-build %{_pre_install_dir}
+install -m 0755 bowtie %{_pre_install_dir}
+install -m 0644 TUTORIAL %{_pre_install_dir}
+install -m 0644 VERSION %{_pre_install_dir}
+install -m 0644 NEWS %{_pre_install_dir}
+install -m 0644 MANUAL.markdown %{_pre_install_dir}
+install -m 0644 MANUAL %{_pre_install_dir}
+install -m 0644 COPYING %{_pre_install_dir}
+install -m 0644 AUTHORS %{_pre_install_dir}
 
-cp -a doc %{_install_dir}
-cp -a genomes %{_install_dir}
-cp -a indexes %{_install_dir}
-cp -a reads %{_install_dir}
-cp -a scripts %{_install_dir}
-install -m 0755 bowtie-inspect %{_install_dir}
-install -m 0755 bowtie-build %{_install_dir}
-install -m 0755 bowtie %{_install_dir}
-install -m 0644 TUTORIAL %{_install_dir}
-install -m 0644 VERSION %{_install_dir}
-install -m 0644 NEWS %{_install_dir}
-install -m 0644 MANUAL.markdown %{_install_dir}
-install -m 0644 MANUAL %{_install_dir}
-install -m 0644 COPYING %{_install_dir}
-install -m 0644 AUTHORS %{_install_dir}
+%mfest_bin   bowtie
+%mfest_bin   bowtie-build
+%mfest_bin   bowtie-inspect
+%mfest_bin   scripts/gen_occ_lookup.pl               gen_occ_lookup.pl
+%mfest_bin   scripts/reconcile_alignments_pe.pl      reconcile_alignments_pe.pl
+%mfest_bin   scripts/convert_quals.pl                convert_quals.pl
+%mfest_bin   scripts/make_s_cerevisiae.sh            make_s_cerevisiae.sh
+%mfest_bin   scripts/make_h_sapiens_ncbi36.sh        make_h_sapiens_ncbi36.sh
+%mfest_bin   scripts/pe_verify.pl                    pe_verify.pl
+%mfest_bin   scripts/make_hg19.sh                    make_hg19.sh
+%mfest_bin   scripts/gen_2b_occ_lookup.pl            gen_2b_occ_lookup.pl
+%mfest_bin   scripts/reconcile_alignments.pl         reconcile_alignments.pl
+%mfest_bin   scripts/make_galGal3.sh                 make_galGal3.sh
+%mfest_bin   scripts/make_e_coli.sh                  make_e_coli.sh
+%mfest_bin   scripts/random_bowtie_tests.sh          random_bowtie_tests.sh
+%mfest_bin   scripts/colorize_fasta.pl               colorize_fasta.pl
+%mfest_bin   scripts/make_mm8.sh                     make_mm8.sh
+%mfest_bin   scripts/make_h_sapiens_ncbi37.sh        make_h_sapiens_ncbi37.sh
+%mfest_bin   scripts/random_bowtie_tests.pl          random_bowtie_tests.pl
+%mfest_bin   scripts/make_rn4.sh                     make_rn4.sh
+%mfest_bin   scripts/make_b_taurus_UMD3.sh           make_b_taurus_UMD3.sh
+%mfest_bin   scripts/make_mm9.sh                     make_mm9.sh
+%mfest_bin   scripts/make_canFam2.sh                 make_canFam2.sh
+%mfest_bin   scripts/build_test.sh                   build_test.sh
+%mfest_bin   scripts/make_c_elegans_ws200.sh         make_c_elegans_ws200.sh
+%mfest_bin   scripts/mapability.pl                   mapability.pl
+%mfest_bin   scripts/make_m_musculus_ncbi37.sh       make_m_musculus_ncbi37.sh
+%mfest_bin   scripts/random_bowtie_tests_p.sh        random_bowtie_tests_p.sh
+%mfest_bin   scripts/gen_solqual_lookup.pl           gen_solqual_lookup.pl
+%mfest_bin   scripts/gen_dnamasks2colormask.pl       gen_dnamasks2colormask.pl
+%mfest_bin   scripts/best_verify.pl                  best_verify.pl
+%mfest_bin   scripts/colorize_fastq.pl               colorize_fastq.pl
+%mfest_bin   scripts/make_hg18.sh                    make_hg18.sh
+%mfest_bin   scripts/fastq_to_tabbed.pl              fastq_to_tabbed.pl
+%mfest_bin   scripts/bs_mapability.pl                bs_mapability.pl
+%mfest_bin   scripts/make_a_thaliana_tair.sh         make_a_thaliana_tair.sh
+%mfest_bin   scripts/make_d_melanogaster_fb5_22.sh   make_d_melanogaster_fb5_22.sh
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-# for i in $(find bowtie bowtie-build bowtie-inspect scripts/ -type f -print); do echo "ln -s %{ln_path}/$i"; done; 
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/bowtie
-ln -s %{ln_path}/bowtie-build
-ln -s %{ln_path}/bowtie-inspect
-ln -s %{ln_path}/scripts/gen_occ_lookup.pl
-ln -s %{ln_path}/scripts/reconcile_alignments_pe.pl
-ln -s %{ln_path}/scripts/convert_quals.pl
-ln -s %{ln_path}/scripts/make_s_cerevisiae.sh
-ln -s %{ln_path}/scripts/make_h_sapiens_ncbi36.sh
-ln -s %{ln_path}/scripts/pe_verify.pl
-ln -s %{ln_path}/scripts/make_hg19.sh
-ln -s %{ln_path}/scripts/gen_2b_occ_lookup.pl
-ln -s %{ln_path}/scripts/reconcile_alignments.pl
-ln -s %{ln_path}/scripts/make_galGal3.sh
-ln -s %{ln_path}/scripts/make_e_coli.sh
-ln -s %{ln_path}/scripts/random_bowtie_tests.sh
-ln -s %{ln_path}/scripts/colorize_fasta.pl
-ln -s %{ln_path}/scripts/make_mm8.sh
-ln -s %{ln_path}/scripts/make_h_sapiens_ncbi37.sh
-ln -s %{ln_path}/scripts/random_bowtie_tests.pl
-ln -s %{ln_path}/scripts/make_rn4.sh
-ln -s %{ln_path}/scripts/make_b_taurus_UMD3.sh
-ln -s %{ln_path}/scripts/make_mm9.sh
-ln -s %{ln_path}/scripts/make_canFam2.sh
-ln -s %{ln_path}/scripts/build_test.sh
-ln -s %{ln_path}/scripts/make_c_elegans_ws200.sh
-ln -s %{ln_path}/scripts/mapability.pl
-ln -s %{ln_path}/scripts/make_m_musculus_ncbi37.sh
-ln -s %{ln_path}/scripts/random_bowtie_tests_p.sh
-ln -s %{ln_path}/scripts/gen_solqual_lookup.pl
-ln -s %{ln_path}/scripts/gen_dnamasks2colormask.pl
-ln -s %{ln_path}/scripts/best_verify.pl
-ln -s %{ln_path}/scripts/colorize_fastq.pl
-ln -s %{ln_path}/scripts/make_hg18.sh
-ln -s %{ln_path}/scripts/fastq_to_tabbed.pl
-ln -s %{ln_path}/scripts/bs_mapability.pl
-ln -s %{ln_path}/scripts/make_a_thaliana_tair.sh
-ln -s %{ln_path}/scripts/make_d_melanogaster_fb5_22.sh
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/doc
 %dir %{_install_dir}/genomes
@@ -194,47 +171,11 @@ fi
 %{_install_dir}/scripts/bs_mapability.pl
 %{_install_dir}/scripts/make_a_thaliana_tair.sh
 %{_install_dir}/scripts/make_d_melanogaster_fb5_22.sh
+%{_install_dir}/%{_manifest_file}
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/bowtie
-%{_install_dir}/__bin__/bowtie-build
-%{_install_dir}/__bin__/bowtie-inspect
-%{_install_dir}/__bin__/gen_occ_lookup.pl
-%{_install_dir}/__bin__/reconcile_alignments_pe.pl
-%{_install_dir}/__bin__/convert_quals.pl
-%{_install_dir}/__bin__/make_s_cerevisiae.sh
-%{_install_dir}/__bin__/make_h_sapiens_ncbi36.sh
-%{_install_dir}/__bin__/pe_verify.pl
-%{_install_dir}/__bin__/make_hg19.sh
-%{_install_dir}/__bin__/gen_2b_occ_lookup.pl
-%{_install_dir}/__bin__/reconcile_alignments.pl
-%{_install_dir}/__bin__/make_galGal3.sh
-%{_install_dir}/__bin__/make_e_coli.sh
-%{_install_dir}/__bin__/random_bowtie_tests.sh
-%{_install_dir}/__bin__/colorize_fasta.pl
-%{_install_dir}/__bin__/make_mm8.sh
-%{_install_dir}/__bin__/make_h_sapiens_ncbi37.sh
-%{_install_dir}/__bin__/random_bowtie_tests.pl
-%{_install_dir}/__bin__/make_rn4.sh
-%{_install_dir}/__bin__/make_b_taurus_UMD3.sh
-%{_install_dir}/__bin__/make_mm9.sh
-%{_install_dir}/__bin__/make_canFam2.sh
-%{_install_dir}/__bin__/build_test.sh
-%{_install_dir}/__bin__/make_c_elegans_ws200.sh
-%{_install_dir}/__bin__/mapability.pl
-%{_install_dir}/__bin__/make_m_musculus_ncbi37.sh
-%{_install_dir}/__bin__/random_bowtie_tests_p.sh
-%{_install_dir}/__bin__/gen_solqual_lookup.pl
-%{_install_dir}/__bin__/gen_dnamasks2colormask.pl
-%{_install_dir}/__bin__/best_verify.pl
-%{_install_dir}/__bin__/colorize_fastq.pl
-%{_install_dir}/__bin__/make_hg18.sh
-%{_install_dir}/__bin__/fastq_to_tabbed.pl
-%{_install_dir}/__bin__/bs_mapability.pl
-%{_install_dir}/__bin__/make_a_thaliana_tair.sh
-%{_install_dir}/__bin__/make_d_melanogaster_fb5_22.sh
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 0.12.7-2
+- use MANIFEST.EUPATH
 * Sun Jan 22 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

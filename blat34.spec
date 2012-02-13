@@ -3,7 +3,7 @@
 Summary: BLAST-Like Alignment Tool
 Name: %{_pkg_base}-%{version}
 Version: 34
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Custom/Academic
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -24,29 +24,16 @@ BLAST-Like Alignment Tool
 %setup -q -n blatSrc
 
 %build
-export MACHTYPE=%{_arch}
-export BINDIR=$PWD/_BUILD
-mkdir $BINDIR
-make
-
 
 %install
 %{__rm} -rf %{buildroot}
-install -m 0755 -d %{buildroot}
 
-cd _BUILD
-install -m 0755 blat %{buildroot}
-install -m 0755 faToNib %{buildroot}
-install -m 0755 faToTwoBit %{buildroot}
-install -m 0755 gfClient %{buildroot}
-install -m 0755 gfServer %{buildroot}
-install -m 0755 nibFrag %{buildroot}
-install -m 0755 pslPretty %{buildroot}
-install -m 0755 pslReps %{buildroot}
-install -m 0755 pslSort %{buildroot}
-install -m 0755 twoBitInfo %{buildroot}
-install -m 0755 twoBitToFa %{buildroot}
+export MACHTYPE=%{_arch}
+export BINDIR=%{_pre_install_dir}
+mkdir -p $BINDIR
+make
 
+cd  %{_pre_install_dir}
 %mfest_bin blat
 %mfest_bin faToNib
 %mfest_bin faToTwoBit
@@ -62,11 +49,7 @@ install -m 0755 twoBitToFa %{buildroot}
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 
 %clean
@@ -75,7 +58,6 @@ fi
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %{_install_dir}/gfServer
 %{_install_dir}/blat
@@ -88,9 +70,11 @@ fi
 %{_install_dir}/twoBitToFa
 %{_install_dir}/faToTwoBit
 %{_install_dir}/pslSort
-%{_manifest_file}
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu>
+- use MANIFEST.EUPATH
 * Fri Jan 20 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

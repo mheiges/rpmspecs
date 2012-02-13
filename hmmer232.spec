@@ -3,7 +3,7 @@
 Summary: biosequence analysis using hidden markov models
 Name: %{_pkg_base}-%{version}
 Version: 2.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -33,52 +33,30 @@ make check
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
-make install prefix=%{_install_dir}
-install -m 0755 -d %{bundle_bin_dir}
+make install prefix=%{_pre_install_dir}
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/bin/hmmalign
-ln -s %{ln_path}/bin/hmmbuild
-ln -s %{ln_path}/bin/hmmcalibrate
-ln -s %{ln_path}/bin/hmmconvert
-ln -s %{ln_path}/bin/hmmemit
-ln -s %{ln_path}/bin/hmmfetch
-ln -s %{ln_path}/bin/hmmindex
-ln -s %{ln_path}/bin/hmmpfam
-ln -s %{ln_path}/bin/hmmsearch
+%mfest_bin  bin/hmmalign             hmmalign
+%mfest_bin  bin/hmmbuild             hmmbuild
+%mfest_bin  bin/hmmcalibrate         hmmcalibrate
+%mfest_bin  bin/hmmconvert           hmmconvert
+%mfest_bin  bin/hmmemit              hmmemit
+%mfest_bin  bin/hmmfetch             hmmfetch
+%mfest_bin  bin/hmmindex             hmmindex
+%mfest_bin  bin/hmmpfam              hmmpfam
+%mfest_bin  bin/hmmsearch            hmmsearch
 
-
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %post
 
 %postun
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/bin
 %dir %{_install_dir}/man
@@ -105,19 +83,11 @@ fi
 %{_install_dir}/man/man1/hmmpfam.1
 %{_install_dir}/man/man1/hmmsearch.1
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/hmmalign
-%{_install_dir}/__bin__/hmmbuild
-%{_install_dir}/__bin__/hmmcalibrate
-%{_install_dir}/__bin__/hmmconvert
-%{_install_dir}/__bin__/hmmemit
-%{_install_dir}/__bin__/hmmfetch
-%{_install_dir}/__bin__/hmmindex
-%{_install_dir}/__bin__/hmmpfam
-%{_install_dir}/__bin__/hmmsearch
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 2.3.2-2
+- use MANIFEST.EUPATH
 * Thu Jan 26 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.

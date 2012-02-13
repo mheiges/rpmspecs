@@ -3,7 +3,7 @@
 Summary: RepeatMaser software for masking low complexity DNA sequences
 Name: %{_pkg_base}-%{version}
 Version: 3.3.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Open Software License v. 2.1
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -39,252 +39,238 @@ sed -i  "s|^#\!.*|#\!/usr/bin/env perl|" util/queryTaxonomyDatabase.pl
 
 %install
 %{__rm} -rf %{buildroot}
-%define _install_dir  %{buildroot}/%{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir  %{_install_dir}/__bin__
 
 cp RepeatMaskerConfig.tmpl RepeatMaskerConfig.pm
 
-install -m 0755 -d %{bundle_bin_dir}
-install -m 0755 -d %{_install_dir}
-install -m 0755 -d %{_install_dir}/Libraries
-install -m 0755 -d %{_install_dir}/Matrices
-install -m 0755 -d %{_install_dir}/Matrices/crossmatch
-install -m 0755 -d %{_install_dir}/Matrices/ncbi
-install -m 0755 -d %{_install_dir}/Matrices/ncbi/nt
-install -m 0755 -d %{_install_dir}/Matrices/wublast
-install -m 0755 -d %{_install_dir}/Matrices/wublast/aa
-install -m 0755 -d %{_install_dir}/Matrices/wublast/nt
-install -m 0755 -d %{_install_dir}/util
+install -m 0755 -d %{_pre_install_dir}
+install -m 0755 -d %{_pre_install_dir}/Libraries
+install -m 0755 -d %{_pre_install_dir}/Matrices
+install -m 0755 -d %{_pre_install_dir}/Matrices/crossmatch
+install -m 0755 -d %{_pre_install_dir}/Matrices/ncbi
+install -m 0755 -d %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0755 -d %{_pre_install_dir}/Matrices/wublast
+install -m 0755 -d %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0755 -d %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0755 -d %{_pre_install_dir}/util
 
-install -m 0755 util/queryRepeatDatabase.pl %{_install_dir}/util
-install -m 0755 util/dupliconToSVG.pl %{_install_dir}/util
-install -m 0755 util/buildRMLibFromEMBL.pl %{_install_dir}/util
-install -m 0755 util/queryTaxonomyDatabase.pl %{_install_dir}/util
-install -m 0755 util/calcDivergenceFromAlign.pl %{_install_dir}/util
-install -m 0755 util/rmOutToGFF3.pl %{_install_dir}/util
-install -m 0755 DupMasker %{_install_dir}
-install -m 0755 DateRepeats %{_install_dir}
-install -m 0755 ProcessRepeats %{_install_dir}
-install -m 0755 RepeatProteinMask %{_install_dir}
-install -m 0755 RepeatMasker %{_install_dir}
+install -m 0755 util/queryRepeatDatabase.pl %{_pre_install_dir}/util
+install -m 0755 util/dupliconToSVG.pl %{_pre_install_dir}/util
+install -m 0755 util/buildRMLibFromEMBL.pl %{_pre_install_dir}/util
+install -m 0755 util/queryTaxonomyDatabase.pl %{_pre_install_dir}/util
+install -m 0755 util/calcDivergenceFromAlign.pl %{_pre_install_dir}/util
+install -m 0755 util/rmOutToGFF3.pl %{_pre_install_dir}/util
+install -m 0755 DupMasker %{_pre_install_dir}
+install -m 0755 DateRepeats %{_pre_install_dir}
+install -m 0755 ProcessRepeats %{_pre_install_dir}
+install -m 0755 RepeatProteinMask %{_pre_install_dir}
+install -m 0755 RepeatMasker %{_pre_install_dir}
 
-install -m 0644 ArrayList.pm %{_install_dir}
-install -m 0644 ArrayListIterator.pm %{_install_dir}
-install -m 0644 bluegrad.jpg %{_install_dir}
-install -m 0644 CrossmatchSearchEngine.pm %{_install_dir}
-install -m 0644 daterepeats.help %{_install_dir}
-install -m 0644 DeCypherSearchEngine.pm %{_install_dir}
-install -m 0644 FastaDB.pm %{_install_dir}
-install -m 0644 HTMLAnnotHeader.html %{_install_dir}
-install -m 0644 INSTALL %{_install_dir}
-install -m 0644 Libraries/RepeatMaskerLib.embl %{_install_dir}/Libraries
-install -m 0644 Libraries/RepeatPeps.lib %{_install_dir}/Libraries
-install -m 0644 Libraries/RepeatPeps.readme %{_install_dir}/Libraries
-install -m 0644 license.txt %{_install_dir}
-install -m 0644 LineHash.pm %{_install_dir}
-install -m 0644 Matrices/crossmatch/14p35g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p37g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p39g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p41g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p43g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p45g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p47g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p49g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p51g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/14p53g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p35g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p37g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p39g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p41g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p43g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p45g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p47g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p49g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p51g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/18p53g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p35g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p37g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p39g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p41g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p43g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p45g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p47g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p49g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p51g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/20p53g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p35g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p37g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p39g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p41g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p43g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p45g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p47g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p49g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p51g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/25p53g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/30p53g.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/at.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/identity.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/simple.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/simple1.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/crossmatch/transp.matrix %{_install_dir}/Matrices/crossmatch
-install -m 0644 Matrices/ncbi/nt/14p35g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p37g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p39g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p41g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p43g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p45g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p47g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p49g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p51g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/14p53g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p35g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p37g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p39g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p41g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p43g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p45g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p47g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p49g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p51g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/18p53g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p35g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p37g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p39g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p41g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p43g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p45g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p47g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p49g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p51g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/20p53g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p35g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p37g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p39g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p41g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p43g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p45g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p47g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p49g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p51g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/25p53g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/30p53g.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/at.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/atx.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/identity.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/ncbiblastdefault.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/simple.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/simple1.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/simplex.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/ncbi/nt/wublastdefault.matrix %{_install_dir}/Matrices/ncbi/nt
-install -m 0644 Matrices/wublast/aa/14p35g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p37g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p39g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p41g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p43g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p45g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p47g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p49g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p51g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/14p53g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p35g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p37g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p39g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p41g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p43g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p45g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p47g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p49g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p51g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/18p53g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p35g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p37g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p39g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p41g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p43g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p45g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p47g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p49g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p51g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/20p53g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p35g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p37g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p39g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p41g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p43g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p45g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p47g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p49g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p51g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/25p53g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/30p53g.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/at.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/identity.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/simple.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/aa/simple1.matrix %{_install_dir}/Matrices/wublast/aa
-install -m 0644 Matrices/wublast/nt/14p35g.matrix %{_install_dir}/Matrices/wublast/nt
-install -m 0644 Matrices/wublast/nt/14p35g.matrix.4.2 %{_install_dir}/Matrices/wublast/nt
-install -m 0644 Matrices/wublast/nt/14p35g.matrix.4.4 %{_install_dir}/Matrices/wublast/nt
-install -m 0644 Matrices/wublast/nt/20p41g.matrix %{_install_dir}/Matrices/wublast/nt
-install -m 0644 Matrices/wublast/nt/20p41g.matrix.4.2 %{_install_dir}/Matrices/wublast/nt
-install -m 0644 Matrices/wublast/nt/20p41g.matrix.4.4 %{_install_dir}/Matrices/wublast/nt
-install -m 0644 NCBIBlastSearchEngine.pm %{_install_dir}
-install -m 0644 PubRef.pm %{_install_dir}
-install -m 0644 README %{_install_dir}
-install -m 0644 RepbaseEMBL.pm %{_install_dir}
-install -m 0644 RepbaseRecord.pm %{_install_dir}
-install -m 0644 RepeatAnnotationData.pm %{_install_dir}
-install -m 0644 repeatmasker.help %{_install_dir}
-install -m 0644 RepeatMaskerConfig.pm %{_install_dir}
-install -m 0644 RepeatMaskerConfig.pm %{_install_dir}
-install -m 0644 RepeatMaskerConfig.tmpl %{_install_dir}
-install -m 0644 SearchEngineI.pm %{_install_dir}
-install -m 0644 SearchResult.pm %{_install_dir}
-install -m 0644 SearchResultCollection.pm %{_install_dir}
-install -m 0644 SeqDBI.pm %{_install_dir}
-install -m 0644 SimpleBatcher.pm %{_install_dir}
-install -m 0644 taxonomy.dat %{_install_dir}
-install -m 0644 Taxonomy.pm %{_install_dir}
-install -m 0644 TRF.pm %{_install_dir}
-install -m 0644 TRFResult.pm %{_install_dir}
-install -m 0644 WUBlastSearchEngine.pm %{_install_dir}
-install -m 0644 WUBlastXSearchEngine.pm %{_install_dir}
+install -m 0644 ArrayList.pm %{_pre_install_dir}
+install -m 0644 ArrayListIterator.pm %{_pre_install_dir}
+install -m 0644 bluegrad.jpg %{_pre_install_dir}
+install -m 0644 CrossmatchSearchEngine.pm %{_pre_install_dir}
+install -m 0644 daterepeats.help %{_pre_install_dir}
+install -m 0644 DeCypherSearchEngine.pm %{_pre_install_dir}
+install -m 0644 FastaDB.pm %{_pre_install_dir}
+install -m 0644 HTMLAnnotHeader.html %{_pre_install_dir}
+install -m 0644 INSTALL %{_pre_install_dir}
+install -m 0644 Libraries/RepeatMaskerLib.embl %{_pre_install_dir}/Libraries
+install -m 0644 Libraries/RepeatPeps.lib %{_pre_install_dir}/Libraries
+install -m 0644 Libraries/RepeatPeps.readme %{_pre_install_dir}/Libraries
+install -m 0644 license.txt %{_pre_install_dir}
+install -m 0644 LineHash.pm %{_pre_install_dir}
+install -m 0644 Matrices/crossmatch/14p35g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p37g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p39g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p41g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p43g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p45g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p47g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p49g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p51g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/14p53g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p35g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p37g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p39g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p41g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p43g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p45g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p47g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p49g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p51g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/18p53g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p35g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p37g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p39g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p41g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p43g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p45g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p47g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p49g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p51g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/20p53g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p35g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p37g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p39g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p41g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p43g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p45g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p47g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p49g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p51g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/25p53g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/30p53g.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/at.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/identity.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/simple.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/simple1.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/crossmatch/transp.matrix %{_pre_install_dir}/Matrices/crossmatch
+install -m 0644 Matrices/ncbi/nt/14p35g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p37g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p39g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p41g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p43g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p45g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p47g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p49g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p51g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/14p53g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p35g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p37g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p39g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p41g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p43g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p45g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p47g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p49g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p51g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/18p53g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p35g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p37g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p39g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p41g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p43g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p45g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p47g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p49g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p51g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/20p53g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p35g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p37g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p39g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p41g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p43g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p45g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p47g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p49g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p51g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/25p53g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/30p53g.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/at.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/atx.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/identity.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/ncbiblastdefault.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/simple.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/simple1.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/simplex.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/ncbi/nt/wublastdefault.matrix %{_pre_install_dir}/Matrices/ncbi/nt
+install -m 0644 Matrices/wublast/aa/14p35g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p37g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p39g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p41g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p43g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p45g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p47g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p49g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p51g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/14p53g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p35g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p37g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p39g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p41g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p43g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p45g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p47g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p49g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p51g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/18p53g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p35g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p37g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p39g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p41g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p43g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p45g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p47g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p49g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p51g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/20p53g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p35g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p37g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p39g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p41g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p43g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p45g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p47g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p49g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p51g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/25p53g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/30p53g.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/at.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/identity.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/simple.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/aa/simple1.matrix %{_pre_install_dir}/Matrices/wublast/aa
+install -m 0644 Matrices/wublast/nt/14p35g.matrix %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 Matrices/wublast/nt/14p35g.matrix.4.2 %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 Matrices/wublast/nt/14p35g.matrix.4.4 %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 Matrices/wublast/nt/20p41g.matrix %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 Matrices/wublast/nt/20p41g.matrix.4.2 %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 Matrices/wublast/nt/20p41g.matrix.4.4 %{_pre_install_dir}/Matrices/wublast/nt
+install -m 0644 NCBIBlastSearchEngine.pm %{_pre_install_dir}
+install -m 0644 PubRef.pm %{_pre_install_dir}
+install -m 0644 README %{_pre_install_dir}
+install -m 0644 RepbaseEMBL.pm %{_pre_install_dir}
+install -m 0644 RepbaseRecord.pm %{_pre_install_dir}
+install -m 0644 RepeatAnnotationData.pm %{_pre_install_dir}
+install -m 0644 repeatmasker.help %{_pre_install_dir}
+install -m 0644 RepeatMaskerConfig.pm %{_pre_install_dir}
+install -m 0644 RepeatMaskerConfig.pm %{_pre_install_dir}
+install -m 0644 RepeatMaskerConfig.tmpl %{_pre_install_dir}
+install -m 0644 SearchEngineI.pm %{_pre_install_dir}
+install -m 0644 SearchResult.pm %{_pre_install_dir}
+install -m 0644 SearchResultCollection.pm %{_pre_install_dir}
+install -m 0644 SeqDBI.pm %{_pre_install_dir}
+install -m 0644 SimpleBatcher.pm %{_pre_install_dir}
+install -m 0644 taxonomy.dat %{_pre_install_dir}
+install -m 0644 Taxonomy.pm %{_pre_install_dir}
+install -m 0644 TRF.pm %{_pre_install_dir}
+install -m 0644 TRFResult.pm %{_pre_install_dir}
+install -m 0644 WUBlastSearchEngine.pm %{_pre_install_dir}
+install -m 0644 WUBlastXSearchEngine.pm %{_pre_install_dir}
 
-# set up symlinks. These are broken as installed and are to be copied
-# to a bin directory a few parents up where they will then be valid.
-# This symlink copy is managed outside RPM (say, with Puppet) so
-# we have dynamic control over which version is active
-%define ln_path ../%{_software_topdir}/%{_pkg_base}/%{version}
-cd %{bundle_bin_dir}
-ln -s %{ln_path}/DateRepeats
-ln -s %{ln_path}/DupMasker
-ln -s %{ln_path}/ProcessRepeats
-ln -s %{ln_path}/RepeatMasker
-ln -s %{ln_path}/RepeatProteinMask
+%mfest_bin  DateRepeats                              
+%mfest_bin  DupMasker                              
+%mfest_bin  ProcessRepeats                              
+%mfest_bin  RepeatMasker                              
+%mfest_bin  RepeatProteinMask                              
 
-cat > %{bundle_bin_dir}/ReadMe <<EOF
-The symlinks in this directory are provided by the custom software RPM
-providing the software package.
-They are not part of the vendor's original software package. They are 
-invalid links until they are copied to ../../../../bin (say, by Puppet
-or other non-RPM methods).
-EOF
 
 %pre
+if [ ! -x $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat ]; then 
+    echo $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat  not found
+    exit 1
+fi
 
 %post
-%define _install_dir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
-%define bundle_bin_dir %{_install_dir}/__bin__
-
 mkdir -p $RPM_INSTALL_PREFIX0/tmp/RepeatMasker
 chmod 1777 $RPM_INSTALL_PREFIX0/tmp/RepeatMasker
 
-cd %{_final_install_dir}
+cd %{_post_install_dir}
 sed -i  "s|\$CROSSMATCH_DIR *=.*|\$CROSSMATCH_DIR = \"$RPM_INSTALL_PREFIX0/bin\";|" RepeatMaskerConfig.pm
 sed -i  "s|\$WUBLAST_DIR *=.*|\$WUBLAST_DIR = \"$RPM_INSTALL_PREFIX0/bin\";|" RepeatMaskerConfig.pm
 sed -i  "s|\$TRF_PRGM *=.*|\$TRF_PRGM = \"$RPM_INSTALL_PREFIX0/bin/trf\";|" RepeatMaskerConfig.pm
 sed -i  "s|@LIBPATH *= *( \$REPEATMASKER_LIB_DIR,|@LIBPATH = ( \$REPEATMASKER_LIB_DIR, \"$RPM_INSTALL_PREFIX0/tmp/RepeatMasker\",|" RepeatMaskerConfig.pm
 
+[ -x $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat ] || echo $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat  not found
 $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat -p -I $RPM_INSTALL_PREFIX0/software/%{_pkg_base}/%{version}/Libraries/RepeatPeps.lib > /dev/null 2>&1
 
 
@@ -302,18 +288,13 @@ $RPM_INSTALL_PREFIX0/%{_software_topdir}/wu_blast/2.0MP_20060504/xdformat -p -I 
 rmdir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}/Libraries
 rmdir $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}/%{version}
 
-# remove _pkg_base dir if empty
-%define parent $RPM_INSTALL_PREFIX0/%{_software_topdir}/%{_pkg_base}
-if [ ! "$(ls -A %{_parent})" ]; then
-    rmdir %{_parent}
-fi
+%rm_pkg_base_dir
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
-%define _install_dir  %{prefix}/%{_software_topdir}/%{_pkg_base}/%{version}
 %dir %{_install_dir}
 %dir %{_install_dir}/util
 %dir %{_install_dir}/Matrices
@@ -517,15 +498,11 @@ fi
 %{_install_dir}/WUBlastSearchEngine.pm
 %{_install_dir}/WUBlastXSearchEngine.pm
 
-%dir %{_install_dir}/__bin__
-%{_install_dir}/__bin__/ReadMe
-%{_install_dir}/__bin__/DateRepeats
-%{_install_dir}/__bin__/DupMasker
-%{_install_dir}/__bin__/ProcessRepeats
-%{_install_dir}/__bin__/RepeatMasker
-%{_install_dir}/__bin__/RepeatProteinMask
+%{_install_dir}/%{_manifest_file}
 
 
 %changelog
+* Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 3.3.0-2
+- add MANIFEST.EUPATH
 * Tue Jan 31 2012 Mark Heiges <mheiges@uga.edu>
 - Initial release.
