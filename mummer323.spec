@@ -91,12 +91,12 @@ cp -a docs %{_pre_install_dir}
 %mfest_bin  show-tiling                              
 
 %post
-cd %{_final_post_install_dir}
+cd %{_post_install_dir}
 
 # remake scripts to fix paths
-cd %{_post_post_install_dir}/scripts
-make clean BIN_DIR=%{_post_post_install_dir} > /dev/null
-make BIN_DIR=%{_post_post_install_dir} AUX_BIN_DIR=%{_post_post_install_dir}/aux_bin SCRIPT_DIR=%{_post_post_install_dir}/scripts > /dev/null
+cd %{_post_install_dir}/scripts
+make clean BIN_DIR=%{_post_install_dir} > /dev/null
+make BIN_DIR=%{_post_install_dir} AUX_BIN_DIR=%{_post_install_dir}/aux_bin SCRIPT_DIR=%{_post_install_dir}/scripts > /dev/null
 
 
 %postun

@@ -3,7 +3,7 @@
 Summary: A graphical tool for DNA sequence finishing
 Name: %{_pkg_base}-%{version}
 Version: 20.0
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -1239,7 +1239,7 @@ install -m 0644 standard/phd_dir/djs74-2689.s1.phd.1 %{_pre_install_dir}/standar
 install -m 0644 standard/phd_dir/djs74-2931.s1.phd.1 %{_pre_install_dir}/standard/phd_dir
 install -m 0644 standard/phd_dir/djs74-3174.s1.phd.1 %{_pre_install_dir}/standard/phd_dir
 
-cat <<EOF >  %{bundle_profile_dir}/consed.sh
+cat <<EOF >  %{bundle_profile_dir}/%{_pkg_base}.sh
 export CONSED_HOME=%{prefix}
 EOF
 
@@ -1276,10 +1276,11 @@ EOF
 %mfest_bin  scripts/alignSolexaReads2Refs.perl            alignSolexaReads2Refs.perl
 %mfest_bin  scripts/findSequenceMatchesForConsed.perl     findSequenceMatchesForConsed.perl
 %mfest_bin  scripts/phaster2Miniassembly.perl             phaster2Miniassembly.perl
+%mfest_profile   __profile__/%{_pkg_base}.sh %{_pkg_base}.sh
 
 
 %post
-cat <<EOF >  %{_post_install_dir}/__profile__/consed.sh
+cat <<EOF >  %{_post_install_dir}/__profile__/%{_pkg_base}.sh
 export CONSED_HOME=$RPM_INSTALL_PREFIX0
 EOF
 
@@ -2477,15 +2478,18 @@ EOF
 %{_install_dir}/standard/phd_dir/djs74-2689.s1.phd.1
 %{_install_dir}/standard/phd_dir/djs74-2931.s1.phd.1
 %{_install_dir}/standard/phd_dir/djs74-3174.s1.phd.1
+%{_install_dir}/__profile__/%{_pkg_base}.sh
 
 %{_install_dir}/%{_manifest_file}
 
 %dir %{_install_dir}/__profile__
-%{_install_dir}/__profile__/consed.sh
+%{_install_dir}/__profile__/%{_pkg_base}.sh
 
 
 
 %changelog
+* Fri Feb 24 2012 Mark Heiges <mheiges@uga.edu> 20.0-4
+- fix profile in MANIFEST
 * Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 20.0-3
 - use MANIFEST.EUPATH
 * Tue Feb 7 2012 Mark Heiges <mheiges@uga.edu> 20.0-2

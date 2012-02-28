@@ -1,6 +1,7 @@
 ####################################################################################
 ### DEFINITIONS ####################################################################
 
+%debug_package %{nil}
 
 %_manifest_file MANIFEST.EUPATH
 
@@ -66,7 +67,7 @@ fi\
 %{nil}
 
 # if %2 is not defined, use %1 for dest
-%mfest_profile() path=profile; src=%1; dest=%{expand:%%{?2:%2}%%{!?2:%1}}; %mfest \
+%mfest_profile() path=etc/profile.d; src=%1; dest=%{expand:%%{?2:%2}%%{!?2:%1}}; %mfest \
 %{nil}
 
 ####################################################################################

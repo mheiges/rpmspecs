@@ -3,7 +3,7 @@
 Summary: Single, simple example file
 Name: %{_pkg_base}-%{version}
 Version: 0.020425.c
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPL
 Group: Application/Bioinformatics
 BuildArch:	x86_64
@@ -84,6 +84,8 @@ EOF
 %{_install_dir}/%{_manifest_file}
 
 %changelog
+* Fri Feb 24 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-5
+- fix profile in MANIFEST
 * Sat Feb 11 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-4
 - add MANIFEST.EUPATH
 * Thu Feb 9 2012 Mark Heiges <mheiges@uga.edu> 0.020425.c-3
